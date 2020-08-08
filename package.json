@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ng serve --open",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
@@ -21,6 +21,7 @@
     "@angular/router": "^10.0.3",
     "@po-ui/ng-components": "3.0.0",
     "@po-ui/ng-templates": "^3.0.0",
+    "firebase": "^7.17.2",
     "rxjs": "~6.5.5",
     "tslib": "^2.0.0",
     "zone.js": "~0.10.3"

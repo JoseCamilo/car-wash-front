@@ -1,0 +1,111 @@
+<po-page-default class="po-page" p-title="Meus agendamentos">
+  <po-list-view
+    p-property-title="carro"
+    [p-actions]="listActions"
+    [p-items]="items"
+  >
+    <ng-template p-list-view-content-template let-item>
+      <div class="po-row">
+        <po-tag
+          *ngIf="item.status === 'confirmado'"
+          class="po-sm-6 po-md-3"
+          p-label="Status"
+          p-icon="true"
+          p-type="success"
+          p-value="Confirmado"
+          p-tooltip="Está confirmado, o serviço será feito!"
+          p-tooltip-position="bottom-left"
+        >
+        </po-tag>
+        <po-tag
+          *ngIf="item.status === 'pendente'"
+          class="po-sm-6 po-md-3"
+          p-label="Status"
+          p-icon="true"
+          p-type="warning"
+          p-value="Pendente"
+          p-tooltip="Estamos verificando seu pedido!"
+          p-tooltip-position="bottom-left"
+        >
+        </po-tag>
+        <po-tag
+          *ngIf="item.status === 'cancelado'"
+          class="po-sm-6 po-md-3"
+          p-label="Status"
+          p-icon="true"
+          p-type="danger"
+          p-value="Cancelado"
+          p-tooltip="Esta agenda foi cancelada, não faremos o serviço!"
+          p-tooltip-position="bottom-left"
+        >
+        </po-tag>
+
+        <po-info
+          class="po-sm-6 po-md-3"
+          p-label="Tipo"
+          [p-value]="getDescTipo(item.tipo)"
+        ></po-info>
+        <po-info
+          class="po-sm-6 po-md-3"
+          p-label="Data"
+          p-value="{{ item.data | date }}"
+        ></po-info>
+        <po-info
+          class="po-sm-6 po-md-3"
+          p-label="Hora"
+          [p-value]="item.hora"
+        ></po-info>
+      </div>
+    </ng-template>
+  </po-list-view>
+
+  <div class="po-row">
+    <po-button
+      class="po-sm-12"
+      (p-click)="onAgendar()"
+      p-icon="po-icon-calendar"
+      p-label="Agendar"
+      p-loading="loadingAgendar"
+      p-type="primary"
+    >
+    </po-button>
+  </div>
+</po-page-default>
+
+<po-modal
+  #agendarModal
+  p-title="Agendar"
+  [p-primary-action]="confirm"
+  p-size="lg"
+>
+  <div class="po-row">
+    <po-calendar
+      class="po-sm-12 po-md-12 po-lg-6 po-mb-2"
+      [p-min-date]="minDate"
+      [(ngModel)]="dateCalendar"
+      (p-change)="changeCalendar($event)"
+    ></po-calendar>
+
+    <form class="po-sm-12 po-md-12 po-lg-6" [formGroup]="formAgendar">
+      <po-input
+        p-label="Carro"
+        p-icon="po-icon-steering-wheel"
+        p-help="Marca, modelo e cor"
+        formControlName="carro"
+      >
+      </po-input>
+      <po-select
+        p-label="Hora"
+        [p-options]="horaOptions"
+        formControlName="hora"
+      >
+      </po-select>
+      <po-select
+        p-label="Tipo de serviço"
+        [p-options]="tipoServicoOptions"
+        formControlName="tipo"
+      >
+      </po-select>
+    </form>
+  </div>
+</po-modal>

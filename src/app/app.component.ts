@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { PoMenuItem } from '@po-ui/ng-components';
+import { PoNavbarItem, PoNavbarIconAction } from '@po-ui/ng-components';
 
 @Component({
   selector: 'app-root',
@@ -9,12 +9,21 @@ import { PoMenuItem } from '@po-ui/ng-components';
 })
 export class AppComponent {
 
-  readonly menus: Array<PoMenuItem> = [
-    { label: 'Home', action: this.onClick.bind(this) }
+  readonly items: Array<PoNavbarItem> = [
+    { label: 'Agenda', link: '/' },
+    { label: 'Componentes', link: '/documentation' },
+    { label: 'Guias', link: '/guides' },
+    { label: 'Ferramentas', link: '/tools' },
+    { label: 'Como contribuir', link: 'https://github.com/po-ui/po-angular/blob/master/CONTRIBUTING.md' },
+    { label: 'Licença', link: 'https://github.com/po-ui/po-angular/blob/master/LICENSE' },
+    { label: 'Core Team', link: 'https://github.com/orgs/po-ui/people' }
   ];
 
-  private onClick() {
-    alert('Clicked in menu item')
-  }
+ readonly iconActions: Array<PoNavbarIconAction> = [
+    { icon: 'po-icon-social-github', link: 'https://github.com/po-ui', label: 'Github' },
+    { icon: 'po-icon-social-twitter', link: 'https://twitter.com/@pouidev', label: 'Twitter' },
+    { icon: 'po-icon-social-instagram', link: 'https://www.instagram.com/pouidev/', label: 'Instagram' }
+  ];
 
+  constructor() {}
 }
