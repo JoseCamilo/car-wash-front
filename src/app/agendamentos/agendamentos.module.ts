@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
-import { HomeComponent } from './home.component';
+import { AgendamentosComponent } from './agendamentos.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { HomeRouting } from './home.routing';
+import { AgendamentosRouting } from './agendamentos.routing';
 import { PoPageModule } from '@po-ui/ng-components';
 import { PoListViewModule } from '@po-ui/ng-components';
 import { PoInfoModule } from '@po-ui/ng-components';
@@ -13,7 +13,7 @@ import { PoFieldModule } from '@po-ui/ng-components';
 import { PoCalendarModule } from '@po-ui/ng-components';
 import { PoNotificationModule } from '@po-ui/ng-components';
 import { PoTooltipModule } from '@po-ui/ng-components';
-import { HomeService } from './home.service';
+import { AgendamentosService } from './agendamentos.service';
 import { PoDividerModule } from '@po-ui/ng-components';
 import { PoLoadingModule } from '@po-ui/ng-components';
 
@@ -21,7 +21,7 @@ import { PoLoadingModule } from '@po-ui/ng-components';
   imports: [
     CommonModule,
     FormsModule,
-    HomeRouting,
+    AgendamentosRouting,
     PoPageModule,
     PoListViewModule,
     PoInfoModule,
@@ -36,7 +36,7 @@ import { PoLoadingModule } from '@po-ui/ng-components';
     PoDividerModule,
     PoLoadingModule,
   ],
-  declarations: [HomeComponent],
-  providers: [HomeService],
+  declarations: [AgendamentosComponent],
+  providers: [AgendamentosService],
 })
-export class HomeModule {}
+export class AgendamentosModule {}

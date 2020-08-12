@@ -1,0 +1,62 @@
+<po-page-default>
+  <div class="po-row">
+    <div class="po-md-12 po-text-center po-font-title">
+      Redefinir senha
+    </div>
+    <div class="po-md-12 po-text-center po-font-text">
+      Enviaremos um email com as informações para você redefinir sua senha
+    </div>
+  </div>
+
+  <form [formGroup]="formRedefinir">
+    <div class="po-row po-mt-3 po-mt-sm-1">
+      <div class="po-md-6 po-offset-md-3 po-offset-lg-3 po-offset-xl-3">
+        <po-email formControlName="login" p-label="Email"> </po-email>
+      </div>
+    </div>
+  </form>
+
+  <div class="po-row">
+    <po-divider class="po-sm-12"></po-divider>
+  </div>
+
+  <div class="po-row">
+    <div class="po-md-8 po-offset-md-3 po-offset-lg-3 po-offset-xl-3">
+      <div class="po-md-2 po-mr-5">
+        <img
+          class="my-password-lock-image po-mb-3"
+          alt="Blocked user image"
+          src="./assets/images/big-lock.svg"
+        />
+      </div>
+      <div class="po-md-9 my-password-tips-text">
+        <div class="po-font-text-bold po-pb-1">Dicas de segurança!</div>
+        <div class="po-font-text-small">
+          <div class="po-row po-pb-1">Evite uma senha que:</div>
+          <div class="po-row po-pb-1">• seja usada em outras contas;</div>
+          <div class="po-row po-pb-1">
+            • usa informações pessoais como seu nome, apelido ou nome de
+            familiares;
+          </div>
+          <div class="po-row po-pb-1">
+            • use sequências muito óbvias como "1234" ou "abcd" ou palavras
+            óbvias como “senha”;
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="po-row">
+    <po-button
+      class="po-md-6 po-offset-md-3 po-offset-lg-3 po-offset-xl-3"
+      p-type="primary"
+      p-icon="po-icon-ok"
+      p-label="Enviar"
+      [p-loading]="loadingConfirmar"
+      [p-disabled]="!formRedefinir.valid"
+      (p-click)="onRedefinir()"
+    >
+    </po-button>
+  </div>
+</po-page-default>

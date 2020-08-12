@@ -1,0 +1,12 @@
+<po-page-login
+  p-hide-remember-user="true"
+  p-background="assets/images/img1.jpg"
+  [p-literals]="customLiterals"
+  p-register-url="/registrar"
+  p-recovery="/redefinir"
+  (p-login-submit)="onLogin($event)"
+  [p-loading]="loadingConfirmar"
+  [p-password-errors]="errosPassword"
+  (p-login-change)="cleanErro()"
+  (p-password-change)="cleanErro()"
+></po-page-login>

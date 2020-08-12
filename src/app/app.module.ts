@@ -4,13 +4,14 @@ import { NgModule, LOCALE_ID } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { PoModule } from '@po-ui/ng-components';
-import { RouterModule } from '@angular/router';
 
-import { PoNavbarModule } from '@po-ui/ng-components';
+import { RouterModule } from '@angular/router';
 
 import { registerLocaleData } from '@angular/common';
 import ptBr from '@angular/common/locales/pt';
+
+import { MenuModule } from './menu/menu.module';
+import { AutenticacaoGuard } from './core/guard/auth.guard.service';
 
 registerLocaleData(ptBr);
 
@@ -21,10 +22,9 @@ registerLocaleData(ptBr);
     BrowserAnimationsModule,
     AppRoutingModule,
     RouterModule.forRoot([]),
-    PoModule,
-    PoNavbarModule,
+    MenuModule,
   ],
-  providers: [{ provide: LOCALE_ID, useValue: 'pt' }],
+  providers: [{ provide: LOCALE_ID, useValue: 'pt' }, AutenticacaoGuard],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

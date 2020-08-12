@@ -1,12 +1,12 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
   PoListViewAction,
-  PoModalComponent,
-  PoModalAction,
-  PoSelectOption,
+  PoListViewLiterals,
   PoNotificationService,
 } from '@po-ui/ng-components';
-import { FormGroup, FormControl } from '@angular/forms';
+import { HomeService } from './home.service';
+import { Router } from '@angular/router';
+import * as firebase from 'firebase';
 
 @Component({
   selector: 'app-home',
@@ -14,66 +14,57 @@ import { FormGroup, FormControl } from '@angular/forms';
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
-  private myItems: Array<any> = [
-    {
-      carro: 'Renegage preto',
-      data: '2020-08-09',
-      hora: '14:30',
-      tipo: 'lavagem-em-casa',
-      status: 'confirmado',
-    },
-    {
-      carro: 'Fiesta vermelho',
-      data: '2020-08-09',
-      hora: '14:45',
-      tipo: 'deixarei-na-loja',
-      status: 'pendente',
-    },
-  ];
+  private myItems = [];
+  isHideLoading = false;
 
   private myListActions: Array<PoListViewAction> = [
     {
       label: 'Cancelar',
       action: this.cancelar.bind(this),
       icon: 'po-icon-delete',
+      type: 'danger',
     },
   ];
 
-  public formAgendar: FormGroup = new FormGroup({
-    carro: new FormControl(''),
-    hora: new FormControl(''),
-    tipo: new FormControl(''),
-  });
-
-  public confirm: PoModalAction = {
-    action: () => {
-      this.saveAgenda();
+  private myServicos: Array<any> = [
+    {
+      titulo: 'Lavagem ecológica',
+      descricao: 'Sem a utilização de água, nós limpamos o seu automóvel',
     },
-    label: 'Confirmar',
+    {
+      titulo: 'Lavagem em casa',
+      descricao:
+        'Nós levamos os nossos produtos e realizamos o serviço na sua garagem',
+    },
+  ];
+
+  private myServicosActions: Array<PoListViewAction> = [
+    {
+      label: 'Agendar',
+      action: this.onAgendar.bind(this),
+      icon: 'po-icon-calendar',
+    },
+  ];
+
+  public myTipoServicoOptions = [];
+
+  customLiterals: PoListViewLiterals = {
+    noData: 'Você não tem nenhum agendamento',
   };
 
-  public minDate = new Date();
-  public dateCalendar = this.minDate;
-
-  public myHoraOptions: PoSelectOption[] = [];
-  public myTipoServicoOptions: PoSelectOption[] = [];
-
-  @ViewChild('agendarModal', { static: false }) agendarModal: PoModalComponent;
-
-  constructor(private poNotification: PoNotificationService) {}
+  constructor(
+    private service: HomeService,
+    private router: Router,
+    private poNotification: PoNotificationService
+  ) {}
 
   ngOnInit(): void {
+    this.onRefreshAgendas();
+
     this.myTipoServicoOptions = [
       { value: 'lavagem-em-casa', label: 'Lavagem em casa' },
       { value: 'retirar-em-casa', label: 'Retirar em casa' },
       { value: 'deixarei-na-loja', label: 'Deixarei na Loja' },
-    ];
-
-    this.myHoraOptions = [
-      { value: '15:00', label: '15:00' },
-      { value: '15:30', label: '15:30' },
-      { value: '16:00', label: '16:00' },
-      { value: '16:30', label: '16:30' },
     ];
   }
 
@@ -85,45 +76,46 @@ export class HomeComponent implements OnInit {
     return this.myListActions;
   }
 
-  get horaOptions(): Array<PoSelectOption> {
-    return this.myHoraOptions;
+  get servicos(): Array<any> {
+    return this.myServicos;
   }
 
-  get tipoServicoOptions(): Array<PoSelectOption> {
-    return this.myTipoServicoOptions;
+  get servicosActions(): Array<any> {
+    return this.myServicosActions;
+  }
+
+  onRefreshAgendas(): void {
+    this.service
+      .getAgendas()
+      .then((res) => {
+        this.myItems = res;
+        this.isHideLoading = true;
+      })
+      .catch((error) => {
+        this.isHideLoading = true;
+        this.poNotification.error(
+          'Desculpa, tivemos um erro ao buscar seu agendamento!'
+        );
+      });
   }
 
   cancelar(item): void {
-    console.log('cancelar', item);
+    this.isHideLoading = false;
+    this.service
+      .cancelAgenda(item)
+      .then(() => {
+        this.onRefreshAgendas();
+        this.poNotification.success('Agenda cancelada!');
+      })
+      .catch(() => {
+        this.onRefreshAgendas();
+        this.poNotification.error(
+          'Desculpa, tivemos um erro ao cancelar a agenda!'
+        );
+      });
   }
 
   onAgendar(): void {
-    this.agendarModal.open();
-  }
-
-  saveAgenda(): void {
-    console.log(this.dateCalendar);
-    console.log(this.formAgendar);
-
-    this.agendarModal.close();
-    this.poNotification.success('Sua solicitação de agendamento foi enviada!');
-  }
-
-  changeCalendar(event): void {
-    console.log(event);
-    this.reloadHoraOptions();
-  }
-  reloadHoraOptions(): void {
-    this.formAgendar.patchValue({ hora: '' });
-  }
-
-  getDescTipo(tipo): string {
-    let label = '';
-    this.myTipoServicoOptions.forEach((element) => {
-      if (element.value === tipo) {
-        label = element.label;
-      }
-    });
-    return label;
+    this.router.navigateByUrl('/agendar');
   }
 }

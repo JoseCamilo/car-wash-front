@@ -1,0 +1,60 @@
+<po-breadcrumb
+  [p-items]="[
+    { label: 'Meus agendamentos', link: '/home' },
+    { label: 'Agendar' }
+  ]"
+>
+</po-breadcrumb>
+<po-page-default p-title="Agendar">
+  <div class="po-row">
+    <po-calendar
+      class="po-sm-12 po-md-6 po-mb-2"
+      [p-min-date]="minDate"
+      [(ngModel)]="dateCalendar"
+      (p-change)="changeCalendar($event)"
+    ></po-calendar>
+
+    <form class="po-sm-12 po-md-6" [formGroup]="formAgendar">
+      <div class="po-row">
+        <po-input
+          class="po-sm-12"
+          p-label="Carro"
+          p-icon="po-icon-steering-wheel"
+          p-help="Marca, modelo e cor"
+          formControlName="carro"
+        >
+        </po-input>
+      </div>
+      <div class="po-row">
+        <po-select
+          class="po-sm-12"
+          p-label="Hora"
+          [p-options]="horaOptions"
+          formControlName="hora"
+        >
+        </po-select>
+      </div>
+      <div class="po-row">
+        <po-select
+          class="po-sm-12"
+          p-label="Tipo de serviço"
+          [p-options]="tipoServicoOptions"
+          formControlName="tipo"
+        >
+        </po-select>
+      </div>
+      <div class="po-row">
+        <po-button
+          class="po-sm-12"
+          p-type="primary"
+          p-icon="po-icon-ok"
+          p-label="Confirmar"
+          p-loading="loadingAgendar"
+          [p-disabled]="!formAgendar.valid"
+          (p-click)="saveAgenda()"
+        >
+        </po-button>
+      </div>
+    </form>
+  </div>
+</po-page-default>

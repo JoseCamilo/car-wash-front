@@ -1,29 +1,25 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
-import { PoNavbarItem, PoNavbarIconAction } from '@po-ui/ng-components';
+import * as firebase from 'firebase';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
 })
-export class AppComponent {
-
-  readonly items: Array<PoNavbarItem> = [
-    { label: 'Agenda', link: '/' },
-    { label: 'Componentes', link: '/documentation' },
-    { label: 'Guias', link: '/guides' },
-    { label: 'Ferramentas', link: '/tools' },
-    { label: 'Como contribuir', link: 'https://github.com/po-ui/po-angular/blob/master/CONTRIBUTING.md' },
-    { label: 'Licença', link: 'https://github.com/po-ui/po-angular/blob/master/LICENSE' },
-    { label: 'Core Team', link: 'https://github.com/orgs/po-ui/people' }
-  ];
-
- readonly iconActions: Array<PoNavbarIconAction> = [
-    { icon: 'po-icon-social-github', link: 'https://github.com/po-ui', label: 'Github' },
-    { icon: 'po-icon-social-twitter', link: 'https://twitter.com/@pouidev', label: 'Twitter' },
-    { icon: 'po-icon-social-instagram', link: 'https://www.instagram.com/pouidev/', label: 'Instagram' }
-  ];
-
+export class AppComponent implements OnInit {
   constructor() {}
+
+  ngOnInit(): void {
+    const firebaseConfig = {
+      apiKey: 'AIzaSyAf59QymwZZ59Ypxr8H86pzZQA7EOAY654',
+      authDomain: 'car-wash-back.firebaseapp.com',
+      databaseURL: 'https://car-wash-back.firebaseio.com',
+      projectId: 'car-wash-back',
+      storageBucket: 'car-wash-back.appspot.com',
+      messagingSenderId: '1054040103870',
+      appId: '1:1054040103870:web:a6d988e11521b3a989b7ef',
+    };
+    firebase.initializeApp(firebaseConfig);
+  }
 }

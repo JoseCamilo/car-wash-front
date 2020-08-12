@@ -1,4 +1,4 @@
-<po-page-default p-title="Meus agendamentos">
+<po-page-list p-title="Admin. Agendamentos" [p-filter]="filterSettings">
   <po-list-view
     p-property-title="carro"
     [p-actions]="listActions"
@@ -73,31 +73,4 @@
   <div>
     <po-loading-overlay [hidden]="isHideLoading"></po-loading-overlay>
   </div>
-
-  <po-divider></po-divider>
-
-  <div class="po-row">
-    <po-button
-      class="po-sm-12"
-      (p-click)="onAgendar()"
-      p-icon="po-icon-calendar"
-      p-label="Agendar"
-      p-type="primary"
-    >
-    </po-button>
-  </div>
-
-  <po-divider></po-divider>
-
-  <po-list-view
-    p-property-title="titulo"
-    [p-actions]="servicosActions"
-    [p-items]="servicos"
-  >
-    <ng-template p-list-view-content-template let-item>
-      <div class="po-row">
-        <font class="po-sm-12 po-font-text">{{ item.descricao }}</font>
-      </div>
-    </ng-template>
-  </po-list-view>
-</po-page-default>
+</po-page-list>
