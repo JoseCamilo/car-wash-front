@@ -60,4 +60,8 @@ export class RegistrarComponent implements OnInit {
         }
       });
   }
+
+  navLogin(): void {
+    this.router.navigateByUrl('login');
+  }
 }

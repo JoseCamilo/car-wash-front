@@ -3,6 +3,7 @@ import * as firebase from 'firebase';
 export class DadosService {
   public salvaDados(
     email,
+    nome = '',
     endereco = '',
     numero = '',
     complemento = '',
@@ -11,6 +12,7 @@ export class DadosService {
   ): Promise<any> {
     const refUser = btoa(email);
     const data = {
+      nome,
       endereco,
       numero,
       complemento,

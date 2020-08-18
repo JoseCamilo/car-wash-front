@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { PoSelectOption, PoNotificationService } from '@po-ui/ng-components';
 import { AgendarService } from './agendar.service';
 import { Router } from '@angular/router';
@@ -14,9 +14,9 @@ import { ExpedienteService } from '../expediente/expediente.service';
 })
 export class AgendarComponent implements OnInit {
   public formAgendar: FormGroup = new FormGroup({
-    carro: new FormControl(''),
-    hora: new FormControl(''),
-    tipo: new FormControl(''),
+    carro: new FormControl('', [Validators.required]),
+    hora: new FormControl('', [Validators.required]),
+    tipo: new FormControl('', [Validators.required]),
   });
 
   public minDate = new Date();
@@ -31,6 +31,7 @@ export class AgendarComponent implements OnInit {
   tipoServicos = [];
   msgObrigatorio = '';
   descricaoServico = '';
+  precoServico = 0;
   placeHora = '';
 
   constructor(
@@ -89,6 +90,7 @@ export class AgendarComponent implements OnInit {
       carro: this.formAgendar.value.carro,
       hora: this.formAgendar.value.hora,
       tipo: this.getDescTipo(this.formAgendar.value.tipo),
+      cliente: this.user.dados,
     };
 
     this.service
@@ -225,14 +227,17 @@ export class AgendarComponent implements OnInit {
       .indexOf(event);
 
     this.descricaoServico = this.tipoServicos[pos].descricao;
+    this.precoServico = this.tipoServicos[pos].preco;
 
     if (this.tipoServicos[pos].obrigatorio.length > 0) {
       this.tipoServicos[pos].obrigatorio.forEach((element) => {
         if (element === 'telefone' && !invalid) {
-          invalid = this.user.dados.telefone ? false : true;
+          invalid = this.user.dados?.telefone ? false : true;
         } else if (element === 'endereco' && !invalid) {
           invalid =
-            this.user.dados.endereco && this.user.dados.numero ? false : true;
+            this.user.dados?.endereco && this.user.dados?.numero ? false : true;
+        } else if (element === 'nome' && !invalid) {
+          invalid = this.user.dados?.nome ? false : true;
         }
       });
 
@@ -241,6 +246,7 @@ export class AgendarComponent implements OnInit {
           let label = '';
           label = element === 'telefone' ? 'Telefone' : label;
           label = element === 'endereco' ? 'Endereço' : label;
+          label = element === 'nome' ? 'Nome' : label;
           obrigatorios += obrigatorios ? `/${label}` : label;
         });
 

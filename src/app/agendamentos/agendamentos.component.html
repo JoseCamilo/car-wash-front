@@ -1,57 +1,72 @@
 <po-page-list p-title="Admin. Agendamentos" [p-filter]="filterSettings">
+  <!-- HOJE -->
+  <div class="po-row po-mb-2">
+    <div class="po-md-12 po-text-center po-font-subtitle">
+      Hoje
+    </div>
+  </div>
   <po-list-view
-    p-property-title="carro"
+    p-property-title="nome"
     [p-actions]="listActions"
-    [p-items]="items"
+    [p-items]="itemsHoje"
     [p-literals]="customLiterals"
   >
     <ng-template p-list-view-content-template let-item>
       <div class="po-row">
         <po-tag
           *ngIf="item.status === 'confirmado'"
-          class="po-sm-6 po-md-3"
+          class="po-sm-12"
           p-label="Status"
           p-icon="true"
           p-type="success"
           p-value="Confirmado"
           p-tooltip="Está confirmado, o serviço será feito!"
           p-tooltip-position="bottom-left"
+          p-orientation="horizontal"
         >
         </po-tag>
         <po-tag
           *ngIf="item.status === 'concluido'"
-          class="po-sm-6 po-md-3"
+          class="po-sm-12"
           p-label="Status"
           p-icon="true"
           p-type="info"
           p-value="Concluído"
-          p-tooltip="Oo serviço já foi feito!"
+          p-tooltip="O serviço já foi feito!"
           p-tooltip-position="bottom-left"
+          p-orientation="horizontal"
         >
         </po-tag>
         <po-tag
           *ngIf="item.status === 'pendente'"
-          class="po-sm-6 po-md-3"
+          class="po-sm-12"
           p-label="Status"
           p-icon="true"
           p-type="warning"
           p-value="Pendente"
           p-tooltip="Estamos verificando seu pedido!"
           p-tooltip-position="bottom-left"
+          p-orientation="horizontal"
         >
         </po-tag>
         <po-tag
           *ngIf="item.status === 'cancelado'"
-          class="po-sm-6 po-md-3"
+          class="po-sm-12"
           p-label="Status"
           p-icon="true"
           p-type="danger"
           p-value="Cancelado"
           p-tooltip="Esta agenda foi cancelada, não faremos o serviço!"
           p-tooltip-position="bottom-left"
+          p-orientation="horizontal"
         >
         </po-tag>
 
+        <po-info
+          class="po-sm-6 po-md-3"
+          p-label="Carro"
+          [p-value]="item.carro"
+        ></po-info>
         <po-info
           class="po-sm-6 po-md-3"
           p-label="Tipo"
@@ -66,6 +81,280 @@
           class="po-sm-6 po-md-3"
           p-label="Hora"
           [p-value]="item.hora"
+        ></po-info>
+      </div>
+    </ng-template>
+
+    <ng-template p-list-view-detail-template let-item>
+      <div class="po-row">
+        <po-info
+          class="po-sm-6 po-md-3"
+          p-label="Email"
+          [p-value]="item.email"
+        ></po-info>
+        <po-info
+          class="po-sm-6 po-md-3"
+          p-label="Telefone"
+          p-value="{{ item.cliente?.telefone | phone: 'BR' }}"
+        ></po-info>
+        <po-info
+          class="po-sm-6 po-md-3"
+          p-label="Endereço"
+          p-value="{{ item.cliente?.endereco }}, {{ item.cliente?.numero }} {{
+            item.cliente?.complemento
+          }}"
+        ></po-info>
+      </div>
+    </ng-template>
+  </po-list-view>
+
+  <po-divider></po-divider>
+
+  <!-- NESTA SEMANA -->
+  <div class="po-row po-mb-2">
+    <po-button
+      *ngIf="!verSemana"
+      class="po-md-12"
+      (p-click)="verSemana = !verSemana"
+      p-label="Exibir desta semana"
+      p-type="link"
+    ></po-button>
+    <po-button
+      *ngIf="verSemana"
+      class="po-md-12"
+      (p-click)="verSemana = !verSemana"
+      p-label="Ocultar desta semana"
+      p-type="link"
+    ></po-button>
+    <div *ngIf="verSemana" class="po-md-12 po-text-center po-font-subtitle">
+      Nesta semana
+    </div>
+  </div>
+  <po-list-view
+    *ngIf="verSemana"
+    p-property-title="nome"
+    [p-actions]="listActions"
+    [p-items]="itemsSemana"
+    [p-literals]="customLiterals"
+  >
+    <ng-template p-list-view-content-template let-item>
+      <div class="po-row">
+        <po-tag
+          *ngIf="item.status === 'confirmado'"
+          class="po-sm-12"
+          p-label="Status"
+          p-icon="true"
+          p-type="success"
+          p-value="Confirmado"
+          p-tooltip="Está confirmado, o serviço será feito!"
+          p-tooltip-position="bottom-left"
+          p-orientation="horizontal"
+        >
+        </po-tag>
+        <po-tag
+          *ngIf="item.status === 'concluido'"
+          class="po-sm-12"
+          p-label="Status"
+          p-icon="true"
+          p-type="info"
+          p-value="Concluído"
+          p-tooltip="Oo serviço já foi feito!"
+          p-tooltip-position="bottom-left"
+          p-orientation="horizontal"
+        >
+        </po-tag>
+        <po-tag
+          *ngIf="item.status === 'pendente'"
+          class="po-sm-12"
+          p-label="Status"
+          p-icon="true"
+          p-type="warning"
+          p-value="Pendente"
+          p-tooltip="Estamos verificando seu pedido!"
+          p-tooltip-position="bottom-left"
+          p-orientation="horizontal"
+        >
+        </po-tag>
+        <po-tag
+          *ngIf="item.status === 'cancelado'"
+          class="po-sm-12"
+          p-label="Status"
+          p-icon="true"
+          p-type="danger"
+          p-value="Cancelado"
+          p-tooltip="Esta agenda foi cancelada, não faremos o serviço!"
+          p-tooltip-position="bottom-left"
+          p-orientation="horizontal"
+        >
+        </po-tag>
+
+        <po-info
+          class="po-sm-6 po-md-3"
+          p-label="Carro"
+          [p-value]="item.carro"
+        ></po-info>
+        <po-info
+          class="po-sm-6 po-md-3"
+          p-label="Tipo"
+          [p-value]="item.tipo"
+        ></po-info>
+        <po-info
+          class="po-sm-6 po-md-3"
+          p-label="Data"
+          p-value="{{ item.data | date }}"
+        ></po-info>
+        <po-info
+          class="po-sm-6 po-md-3"
+          p-label="Hora"
+          [p-value]="item.hora"
+        ></po-info>
+      </div>
+    </ng-template>
+
+    <ng-template p-list-view-detail-template let-item>
+      <div class="po-row">
+        <po-info
+          class="po-sm-6 po-md-3"
+          p-label="Email"
+          [p-value]="item.email"
+        ></po-info>
+        <po-info
+          class="po-sm-6 po-md-3"
+          p-label="Telefone"
+          p-value="{{ item.cliente?.telefone | phone: 'BR' }}"
+        ></po-info>
+        <po-info
+          class="po-sm-6 po-md-3"
+          p-label="Endereço"
+          p-value="{{ item.cliente?.endereco }}, {{ item.cliente?.numero }} {{
+            item.cliente?.complemento
+          }}"
+        ></po-info>
+      </div>
+    </ng-template>
+  </po-list-view>
+
+  <po-divider></po-divider>
+
+  <!-- TODAS -->
+  <div class="po-row po-mb-2">
+    <po-button
+      *ngIf="!verTodas"
+      class="po-md-12"
+      (p-click)="verTodas = !verTodas"
+      p-label="Exibir todos"
+      p-type="link"
+    ></po-button>
+    <po-button
+      *ngIf="verTodas"
+      class="po-md-12"
+      (p-click)="verTodas = !verTodas"
+      p-label="Ocultar todos"
+      p-type="link"
+    ></po-button>
+    <div *ngIf="verTodas" class="po-md-12 po-text-center po-font-subtitle">
+      Todas
+    </div>
+  </div>
+  <po-list-view
+    *ngIf="verTodas"
+    p-property-title="nome"
+    [p-actions]="listActions"
+    [p-items]="items"
+    [p-literals]="customLiterals"
+  >
+    <ng-template p-list-view-content-template let-item>
+      <div class="po-row">
+        <po-tag
+          *ngIf="item.status === 'confirmado'"
+          class="po-sm-12"
+          p-label="Status"
+          p-icon="true"
+          p-type="success"
+          p-value="Confirmado"
+          p-tooltip="Está confirmado, o serviço será feito!"
+          p-tooltip-position="bottom-left"
+          p-orientation="horizontal"
+        >
+        </po-tag>
+        <po-tag
+          *ngIf="item.status === 'concluido'"
+          class="po-sm-12"
+          p-label="Status"
+          p-icon="true"
+          p-type="info"
+          p-value="Concluído"
+          p-tooltip="Oo serviço já foi feito!"
+          p-tooltip-position="bottom-left"
+          p-orientation="horizontal"
+        >
+        </po-tag>
+        <po-tag
+          *ngIf="item.status === 'pendente'"
+          class="po-sm-12"
+          p-label="Status"
+          p-icon="true"
+          p-type="warning"
+          p-value="Pendente"
+          p-tooltip="Estamos verificando seu pedido!"
+          p-tooltip-position="bottom-left"
+          p-orientation="horizontal"
+        >
+        </po-tag>
+        <po-tag
+          *ngIf="item.status === 'cancelado'"
+          class="po-sm-12"
+          p-label="Status"
+          p-icon="true"
+          p-type="danger"
+          p-value="Cancelado"
+          p-tooltip="Esta agenda foi cancelada, não faremos o serviço!"
+          p-tooltip-position="bottom-left"
+          p-orientation="horizontal"
+        >
+        </po-tag>
+
+        <po-info
+          class="po-sm-6 po-md-3"
+          p-label="Carro"
+          [p-value]="item.carro"
+        ></po-info>
+        <po-info
+          class="po-sm-6 po-md-3"
+          p-label="Tipo"
+          [p-value]="item.tipo"
+        ></po-info>
+        <po-info
+          class="po-sm-6 po-md-3"
+          p-label="Data"
+          p-value="{{ item.data | date }}"
+        ></po-info>
+        <po-info
+          class="po-sm-6 po-md-3"
+          p-label="Hora"
+          [p-value]="item.hora"
+        ></po-info>
+      </div>
+    </ng-template>
+
+    <ng-template p-list-view-detail-template let-item>
+      <div class="po-row">
+        <po-info
+          class="po-sm-6 po-md-3"
+          p-label="Email"
+          [p-value]="item.email"
+        ></po-info>
+        <po-info
+          class="po-sm-6 po-md-3"
+          p-label="Telefone"
+          p-value="{{ item.cliente?.telefone | phone: 'BR' }}"
+        ></po-info>
+        <po-info
+          class="po-sm-6 po-md-3"
+          p-label="Endereço"
+          p-value="{{ item.cliente?.endereco }}, {{ item.cliente?.numero }} {{
+            item.cliente?.complemento
+          }}"
         ></po-info>
       </div>
     </ng-template>

@@ -11,7 +11,10 @@ import { registerLocaleData } from '@angular/common';
 import ptBr from '@angular/common/locales/pt';
 
 import { MenuModule } from './menu/menu.module';
-import { AutenticacaoGuard } from './core/guard/auth.guard.service';
+import {
+  AutenticacaoGuard,
+  AdminAutenticacaoGuard,
+} from './core/guard/auth.guard.service';
 
 registerLocaleData(ptBr);
 
@@ -24,7 +27,11 @@ registerLocaleData(ptBr);
     RouterModule.forRoot([]),
     MenuModule,
   ],
-  providers: [{ provide: LOCALE_ID, useValue: 'pt' }, AutenticacaoGuard],
+  providers: [
+    { provide: LOCALE_ID, useValue: 'pt' },
+    AutenticacaoGuard,
+    AdminAutenticacaoGuard,
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

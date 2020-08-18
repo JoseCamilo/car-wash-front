@@ -1,10 +1,10 @@
 <po-page-list
-  p-title="Admin. Serviços"
+  p-title="Usuários"
   [p-filter]="filterSettings"
   [p-actions]="actions"
 >
   <po-list-view
-    p-property-title="titulo"
+    p-property-title="nome"
     [p-actions]="listActions"
     [p-items]="items"
     [p-literals]="customLiterals"
@@ -13,22 +13,33 @@
       <div class="po-row">
         <po-info
           class="po-md-6"
-          p-label="Descrição"
-          [p-value]="item.descricao"
+          p-label="Endereço"
+          [p-value]="item.endereco"
         ></po-info>
-        <po-checkbox-group
-          class="po-md-6"
-          p-label="Dados de cliente obrigatório"
-          [p-options]="obrigatorioOptions"
-          name="obrigatorio"
-          [(ngModel)]="item.obrigatorio"
-          p-disabled
-        >
-        </po-checkbox-group>
         <po-info
           class="po-md-6"
-          p-label="Preço"
-          p-value="R$ {{ item.preco }}"
+          p-label="Número"
+          [p-value]="item.numero"
+        ></po-info>
+        <po-info
+          class="po-md-6"
+          p-label="Complemento"
+          [p-value]="item.complemento"
+        ></po-info>
+        <po-info
+          class="po-md-6"
+          p-label="Telefone"
+          p-value="{{ item.telefone | phone: 'BR' }}"
+        ></po-info>
+        <po-info
+          class="po-md-6"
+          p-label="Email"
+          [p-value]="item.email"
+        ></po-info>
+        <po-info
+          class="po-md-6"
+          p-label="Papel"
+          [p-value]="getDescPapel(item.papel)"
         ></po-info>
       </div>
     </ng-template>

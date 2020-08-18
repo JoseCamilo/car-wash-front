@@ -15,40 +15,35 @@ export class MenuComponent implements OnInit {
     { label: 'Meus dados', link: '/dados' },
   ];
 
+  readonly menuAdmin = [
+    { label: 'Agendamentos', link: '/agendamentos' },
+    { label: 'Serviços', link: '/servicos' },
+    { label: 'Expediente', link: '/expediente' },
+    { label: 'Usuários', link: '/usuarios' },
+  ];
+  readonly menuSair = [{ label: 'Sair', action: this.onSair.bind(this) }];
+
   readonly iconActions: Array<PoNavbarIconAction> = [
     {
-      icon: 'po-icon-social-github',
-      link: 'https://github.com/po-ui',
-      label: 'Github',
+      icon: 'po-icon-social-instagram',
+      link: 'https://www.instagram.com/jfcamilo3/',
+      label: 'Instagram',
     },
     {
       icon: 'po-icon-social-twitter',
-      link: 'https://twitter.com/@pouidev',
+      link: 'https://twitter.com/@josefrcamilo',
       label: 'Twitter',
-    },
-    {
-      icon: 'po-icon-social-instagram',
-      link: 'https://www.instagram.com/pouidev/',
-      label: 'Instagram',
     },
   ];
 
-  constructor(private router: Router, private serviceDados: DadosService) {}
+  constructor(private router: Router, private dadosService: DadosService) {}
 
   ngOnInit(): void {
-    const menuAdmin = [
-      { label: 'Agendamentos', link: '/agendamentos' },
-      { label: 'Serviços', link: '/servicos' },
-      { label: 'Expediente', link: '/expediente' },
-      { label: 'Sair', action: this.onSair.bind(this) },
-    ];
-    const menuUsr = [{ label: 'Sair', action: this.onSair.bind(this) }];
-
-    this.serviceDados.getDadosUser().then((user: any) => {
+    this.dadosService.getDadosUser().then((user: any) => {
       if (user[1]?.papel === 'admin') {
-        this.items = [...this.items, ...menuAdmin];
+        this.items = [...this.items, ...this.menuAdmin, ...this.menuSair];
       } else {
-        this.items = [...this.items, ...menuUsr];
+        this.items = [...this.items, ...this.menuSair];
       }
     });
   }

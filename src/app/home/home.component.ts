@@ -17,7 +17,7 @@ import { listEnterSmoothAnimation } from '../shared/animations';
 })
 export class HomeComponent implements OnInit {
   private myItems = [];
-  isLoading = false;
+  isHideLoading = false;
   isLoadingSrv = false;
 
   private myListActions: Array<PoListViewAction> = [
@@ -83,10 +83,10 @@ export class HomeComponent implements OnInit {
       .getAgendas()
       .then((res) => {
         this.myItems = res;
-        this.isLoading = true;
+        this.isHideLoading = true;
       })
       .catch((error) => {
-        this.isLoading = true;
+        this.isHideLoading = true;
         this.poNotification.error(
           'Desculpa, tivemos um erro ao buscar seu agendamento!'
         );
@@ -94,7 +94,7 @@ export class HomeComponent implements OnInit {
   }
 
   cancelar(item): void {
-    this.isLoading = false;
+    this.isHideLoading = false;
     this.service
       .cancelAgenda(item)
       .then(() => {

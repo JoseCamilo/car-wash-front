@@ -15,9 +15,13 @@ import { Router } from '@angular/router';
 })
 export class AgendamentosComponent implements OnInit {
   myItems = [];
+  myItemsHoje = [];
+  myItemsSemana = [];
   myItemsFiltered = [];
   isHideLoading = false;
   labelFilter;
+  verSemana = false;
+  verTodas = false;
 
   readonly filterSettings: PoPageFilter = {
     action: this.processesFilter.bind(this),
@@ -66,6 +70,15 @@ export class AgendamentosComponent implements OnInit {
 
   get items(): Array<any> {
     return this.myItemsFiltered;
+  }
+  get itemsHoje(): Array<any> {
+    const hoje = this.getDateHoje();
+    return this.myItemsFiltered.filter((x) => x.data === hoje);
+  }
+  get itemsSemana(): Array<any> {
+    const hoje = this.getDateHoje();
+    const last = this.getDateSemana();
+    return this.myItemsFiltered.filter((x) => x.data > hoje && x.data <= last);
   }
 
   get listActions(): Array<PoListViewAction> {
@@ -119,6 +132,25 @@ export class AgendamentosComponent implements OnInit {
   }
   updateStatusPendente(item): void {
     this.updateStatus(item, 'pendente');
+  }
+
+  getDateHoje(): string {
+    const date = new Date();
+    const mes = ('00' + (date.getMonth() + 1)).slice(-2);
+    const dia = ('00' + date.getDate()).slice(-2);
+    return `${date.getFullYear()}-${mes}-${dia}`;
+  }
+
+  getDateSemana(): string {
+    const date = new Date();
+    const time = date.getTime();
+    const day = date.getDay();
+    const newTime = time + (7 - day) * 86400000;
+    const newDate = new Date(newTime);
+
+    const mes = ('00' + (newDate.getMonth() + 1)).slice(-2);
+    const dia = ('00' + newDate.getDate()).slice(-2);
+    return `${newDate.getFullYear()}-${mes}-${dia}`;
   }
 
   // Filtro

@@ -18,9 +18,10 @@ import { FormGroup, FormControl } from '@angular/forms';
 export class ServicoComponent implements OnInit {
   isHideLoading = false;
   loadingConfirmar = false;
-  servico = { titulo: null, descricao: null, obrigatorio: null };
+  servico = { titulo: null, descricao: null, obrigatorio: null, preco: null };
 
   obrigatorioOptions: PoCheckboxGroupOption[] = [
+    { value: 'nome', label: 'Nome' },
     { value: 'endereco', label: 'Endereço' },
     { value: 'telefone', label: 'Telefone' },
   ];
@@ -29,6 +30,7 @@ export class ServicoComponent implements OnInit {
     titulo: new FormControl(''),
     descricao: new FormControl(''),
     obrigatorio: new FormControl(''),
+    preco: new FormControl(''),
   });
 
   constructor(
@@ -55,6 +57,7 @@ export class ServicoComponent implements OnInit {
         this.formServico.get('titulo').setValue(this.servico.titulo);
         this.formServico.get('descricao').setValue(this.servico.descricao);
         this.formServico.get('obrigatorio').setValue(this.servico.obrigatorio);
+        this.formServico.get('preco').setValue(this.servico.preco);
 
         this.isHideLoading = true;
       })
@@ -72,6 +75,7 @@ export class ServicoComponent implements OnInit {
     this.servico.titulo = this.formServico.value.titulo;
     this.servico.descricao = this.formServico.value.descricao;
     this.servico.obrigatorio = this.formServico.value.obrigatorio;
+    this.servico.preco = this.formServico.value.preco;
 
     this.service
       .saveServico(this.servico)

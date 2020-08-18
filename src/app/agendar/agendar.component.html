@@ -64,6 +64,11 @@
           >! {{ msgObrigatorio }}</font
         >
       </div>
+      <div class="po-row po-mt-2" *ngIf="formAgendar.valid && !msgObrigatorio">
+        <font class="po-font-subtitle po-sm-12"
+          >Total: R$ {{ precoServico }}</font
+        >
+      </div>
       <div class="po-row po-mt-2" *ngIf="msgObrigatorio">
         <po-button
           class="po-sm-12"

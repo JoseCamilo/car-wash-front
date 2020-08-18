@@ -11,6 +11,7 @@ import { PoNotificationService } from '@po-ui/ng-components';
 })
 export class DadosComponent implements OnInit {
   public formDados: FormGroup = new FormGroup({
+    nome: new FormControl(''),
     endereco: new FormControl(''),
     numero: new FormControl(''),
     complemento: new FormControl(''),
@@ -51,6 +52,7 @@ export class DadosComponent implements OnInit {
     this.service
       .salvaDados(
         this.user.email,
+        this.formDados.value.nome,
         this.formDados.value.endereco,
         this.formDados.value.numero,
         this.formDados.value.complemento,

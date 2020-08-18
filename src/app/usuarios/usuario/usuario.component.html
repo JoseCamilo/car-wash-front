@@ -1,24 +1,14 @@
-<po-page-default p-title="Meus dados">
-  <div class="po-row">
-    <div class="po-md-12 po-text-center po-font-text">
-      Preencha seus dados para conseguir agendar qualquer tipo de serviço
-    </div>
-  </div>
-
-  <form [formGroup]="formDados">
+<po-breadcrumb
+  [p-items]="[{ label: 'Usuários', link: '/usuarios' }, { label: 'Cadastro' }]"
+>
+</po-breadcrumb>
+<po-page-default p-title="Cadastro de Usuário">
+  <form [formGroup]="formUsuario">
     <div>
       <po-loading-overlay [hidden]="isHideLoading"></po-loading-overlay>
     </div>
     <div class="po-row po-mt-3 po-mt-sm-1">
       <div class="po-md-6 po-offset-md-3 po-offset-lg-3 po-offset-xl-3">
-        <po-input
-          formControlName="nome"
-          p-label="Nome"
-          p-help="Nos diga seu nome"
-          p-clean
-          p-icon="po-icon-user"
-        >
-        </po-input>
         <po-input
           formControlName="endereco"
           p-label="Endereço"
@@ -33,7 +23,6 @@
           formControlName="complemento"
           p-label="Complemento"
           p-help="Bloco, Apartamento"
-          p-icon="po-icon-pin"
           p-clean
         >
         </po-input>
@@ -44,10 +33,15 @@
           p-mask="(99) 99999?-9999"
           p-placeholder="(99) 99999-9999"
           p-help="Telefone para contato"
-          p-icon="po-icon-telephone"
           p-clean
         >
         </po-input>
+        <po-select
+          formControlName="papel"
+          p-label="Papel"
+          [p-options]="papelOptions"
+        >
+        </po-select>
       </div>
     </div>
   </form>
@@ -59,8 +53,8 @@
       p-icon="po-icon-ok"
       p-label="Salvar"
       [p-loading]="loadingConfirmar"
-      [p-disabled]="!formDados.valid"
-      (p-click)="saveDados()"
+      [p-disabled]="!formUsuario.valid"
+      (p-click)="saveUsuario()"
     >
     </po-button>
   </div>

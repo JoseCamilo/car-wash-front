@@ -9,15 +9,15 @@ import {
   PoModalAction,
   PoModalComponent,
 } from '@po-ui/ng-components';
-import { ServicosService } from './servicos.service';
+import { UsuariosService } from './usuarios.service';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-servicos',
-  templateUrl: './servicos.component.html',
-  styleUrls: ['./servicos.component.scss'],
+  selector: 'app-usuarios',
+  templateUrl: './usuarios.component.html',
+  styleUrls: ['./usuarios.component.scss'],
 })
-export class ServicosComponent implements OnInit {
+export class UsuariosComponent implements OnInit {
   myItems = [];
   myItemsFiltered = [];
   isHideLoading = false;
@@ -25,7 +25,7 @@ export class ServicosComponent implements OnInit {
   itemDelete;
 
   public readonly actions: Array<PoPageAction> = [
-    { label: 'Novo Serviço', action: this.createServico.bind(this) },
+    { label: 'Novo Usuário', action: this.createUsuario.bind(this) },
   ];
 
   readonly filterSettings: PoPageFilter = {
@@ -36,26 +36,20 @@ export class ServicosComponent implements OnInit {
   private myListActions: Array<PoListViewAction> = [
     {
       label: 'Editar',
-      action: this.updateServico.bind(this),
+      action: this.updateUsuario.bind(this),
       icon: 'po-icon-edit',
     },
     {
       label: 'Excluir',
-      action: this.deleteServico.bind(this),
+      action: this.deleteUsuario.bind(this),
       icon: 'po-icon-delete',
       type: 'danger',
     },
   ];
 
   customLiterals: PoListViewLiterals = {
-    noData: 'Não tem nenhum serviço cadastrado',
+    noData: 'Não tem nenhum usuário cadastrado',
   };
-
-  obrigatorioOptions: PoCheckboxGroupOption[] = [
-    { value: 'nome', label: 'Nome' },
-    { value: 'endereco', label: 'Endereço' },
-    { value: 'telefone', label: 'Telefone' },
-  ];
 
   close: PoModalAction = {
     action: () => {
@@ -66,22 +60,27 @@ export class ServicosComponent implements OnInit {
 
   confirm: PoModalAction = {
     action: () => {
-      this.processDeleteServico();
+      this.processDeleteUsuario();
     },
     label: 'Sim',
     danger: true,
   };
 
+  papelOptions: any[] = [
+    { value: '', label: 'Cliente' },
+    { value: 'admin', label: 'Administrador' },
+  ];
+
   @ViewChild('excluirModal') excluirModal: PoModalComponent;
 
   constructor(
-    private service: ServicosService,
+    private service: UsuariosService,
     private router: Router,
     private poNotification: PoNotificationService
   ) {}
 
   ngOnInit(): void {
-    this.onRefreshServicos();
+    this.onRefreshUsuarios();
   }
 
   get items(): Array<any> {
@@ -92,9 +91,9 @@ export class ServicosComponent implements OnInit {
     return this.myListActions;
   }
 
-  onRefreshServicos(): void {
+  onRefreshUsuarios(): void {
     this.service
-      .getServicos()
+      .getUsuarios()
       .then((res) => {
         this.myItems = res;
         this.myItemsFiltered = this.myItems;
@@ -103,36 +102,36 @@ export class ServicosComponent implements OnInit {
       .catch((error) => {
         this.isHideLoading = true;
         this.poNotification.error(
-          'Desculpa, tivemos um erro ao buscar os Servicos!'
+          'Desculpa, tivemos um erro ao buscar os Usuarios!'
         );
       });
   }
 
-  createServico(): void {
-    this.router.navigateByUrl(`/servicos/item`);
+  createUsuario(): void {
+    this.router.navigateByUrl(`/usuarios/item`);
   }
-  updateServico(item): void {
-    this.router.navigateByUrl(`/servicos/item/${item.key}`);
+  updateUsuario(item): void {
+    this.router.navigateByUrl(`/usuarios/item/${encodeURIComponent(item.key)}`);
   }
 
-  deleteServico(item): void {
+  deleteUsuario(item): void {
     this.itemDelete = item;
     this.excluirModal.open();
   }
 
-  processDeleteServico(): void {
+  processDeleteUsuario(): void {
     this.closeModal();
     this.isHideLoading = false;
     this.service
-      .deleteServico(this.itemDelete)
+      .deleteUsuario(this.itemDelete)
       .then(() => {
-        this.onRefreshServicos();
-        this.poNotification.success('Serviço excluído!');
+        this.onRefreshUsuarios();
+        this.poNotification.success('Usuário excluído!');
       })
       .catch(() => {
-        this.onRefreshServicos();
+        this.onRefreshUsuarios();
         this.poNotification.error(
-          'Desculpa, tivemos um erro ao excluir o serviço!'
+          'Desculpa, tivemos um erro ao excluir o usuário!'
         );
       });
   }
@@ -157,5 +156,15 @@ export class ServicosComponent implements OnInit {
     return filters.some((filter) =>
       String(item).toLocaleLowerCase().includes(filter.toLocaleLowerCase())
     );
+  }
+
+  getDescPapel(papel): string {
+    let label = '';
+    this.papelOptions.forEach((element) => {
+      if (element.value === papel) {
+        label = element.label;
+      }
+    });
+    return label;
   }
 }

@@ -18,6 +18,15 @@ export class HomeService {
                 const agenda = childSnapshot.val();
                 agenda.key = childSnapshot.key;
                 agendas.push(agenda);
+                agendas.sort((a, b) =>
+                  a.data > b.data
+                    ? -1
+                    : a.data === b.data
+                    ? a.hora > b.hora
+                      ? -1
+                      : 1
+                    : 1
+                );
               });
               resolve(agendas);
             })
