@@ -47,6 +47,28 @@ const routes: Routes = [
             (m) => m.AgendamentosModule
           ),
       },
+      {
+        path: 'servicos',
+        loadChildren: () =>
+          import('./servicos/servicos.module').then((m) => m.ServicosModule),
+      },
+      {
+        path: 'servicos/item',
+        loadChildren: () =>
+          import('./servicos/servicos.module').then((m) => m.ServicosModule),
+      },
+      {
+        path: 'servicos/item/:id',
+        loadChildren: () =>
+          import('./servicos/servicos.module').then((m) => m.ServicosModule),
+      },
+      {
+        path: 'expediente',
+        loadChildren: () =>
+          import('./expediente/expediente.module').then(
+            (m) => m.ExpedienteModule
+          ),
+      },
     ],
   },
 ];

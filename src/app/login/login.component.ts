@@ -3,15 +3,16 @@ import { PoPageLoginLiterals } from '@po-ui/ng-templates';
 import { LoginService } from './login.service';
 import { Router } from '@angular/router';
 import { PoNotificationService } from '@po-ui/ng-components';
+import { enterSmoothTrigger } from '../shared/animations';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
+  animations: [enterSmoothTrigger],
 })
 export class LoginComponent implements OnInit {
   customLiterals: PoPageLoginLiterals = {
-    highlightInfo: 'Car Wash',
     welcome: 'Bem-vindo ao Car Wash!',
     loginHint:
       'Caso tenha esquecido seu email, entre em contato com o suporte@carwash.com.br',

@@ -3,6 +3,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { RegistrarService } from './registrar.service';
 import { PoNotificationService } from '@po-ui/ng-components';
 import { Router } from '@angular/router';
+import { DadosService } from '../dados/dados.service';
 
 @Component({
   selector: 'app-registrar',
@@ -25,6 +26,7 @@ export class RegistrarComponent implements OnInit {
 
   constructor(
     private service: RegistrarService,
+    private serviceDados: DadosService,
     private poNotification: PoNotificationService,
     private router: Router
   ) {}
@@ -40,10 +42,10 @@ export class RegistrarComponent implements OnInit {
         this.formRegistrar.value.password
       )
       .then((resp) => {
-        console.log(resp);
         this.loadingConfirmar = false;
         this.poNotification.success('Usuário criado!');
         this.router.navigateByUrl('home');
+        this.serviceDados.salvaDados(this.formRegistrar.value.login);
       })
       .catch((error) => {
         this.loadingConfirmar = false;

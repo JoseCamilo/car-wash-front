@@ -7,6 +7,11 @@
 </po-breadcrumb>
 <po-page-default p-title="Agendar">
   <div class="po-row">
+    <div class="po-md-12 po-text-center po-font-text-large po-mb-2">
+      Faça seu agendamento agora mesmo
+    </div>
+  </div>
+  <div class="po-row">
     <po-calendar
       class="po-sm-12 po-md-6 po-mb-2"
       [p-min-date]="minDate"
@@ -31,8 +36,15 @@
           p-label="Hora"
           [p-options]="horaOptions"
           formControlName="hora"
+          [p-disabled]="loadingHora"
         >
         </po-select>
+        <font
+          *ngIf="placeHora"
+          class="po-font-text-small po-sm-12 po-mb-2"
+          style="color: #c64840;"
+          >! {{ placeHora }}</font
+        >
       </div>
       <div class="po-row">
         <po-select
@@ -40,17 +52,35 @@
           p-label="Tipo de serviço"
           [p-options]="tipoServicoOptions"
           formControlName="tipo"
+          [p-disabled]="loadingServicos"
+          (p-change)="changeServico($event)"
+          [p-help]="descricaoServico"
         >
         </po-select>
+        <font
+          *ngIf="msgObrigatorio"
+          class="po-font-text-small po-sm-12"
+          style="color: #c64840;"
+          >! {{ msgObrigatorio }}</font
+        >
       </div>
-      <div class="po-row">
+      <div class="po-row po-mt-2" *ngIf="msgObrigatorio">
+        <po-button
+          class="po-sm-12"
+          p-icon="po-icon-clipboard"
+          p-label="Meus Dados"
+          (p-click)="meusDados()"
+        >
+        </po-button>
+      </div>
+      <div class="po-row po-mt-2">
         <po-button
           class="po-sm-12"
           p-type="primary"
           p-icon="po-icon-ok"
           p-label="Confirmar"
           p-loading="loadingAgendar"
-          [p-disabled]="!formAgendar.valid"
+          [p-disabled]="!formAgendar.valid || msgObrigatorio.length > 0"
           (p-click)="saveAgenda()"
         >
         </po-button>

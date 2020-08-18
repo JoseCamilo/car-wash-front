@@ -5,6 +5,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { PoNavbarModule, PoModule } from '@po-ui/ng-components';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from '../app-routing.module';
+import { DadosService } from '../dados/dados.service';
 
 @NgModule({
   imports: [
@@ -16,5 +17,6 @@ import { AppRoutingModule } from '../app-routing.module';
     PoNavbarModule,
   ],
   declarations: [MenuComponent],
+  providers: [DadosService],
 })
 export class MenuModule {}

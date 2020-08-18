@@ -3,7 +3,6 @@ import { DadosService } from './dados.service';
 import { Router } from '@angular/router';
 import { FormGroup, FormControl } from '@angular/forms';
 import { PoNotificationService } from '@po-ui/ng-components';
-import * as firebase from 'firebase';
 
 @Component({
   selector: 'app-dados',
@@ -20,7 +19,7 @@ export class DadosComponent implements OnInit {
 
   isHideLoading = false;
   loadingConfirmar = false;
-  user;
+  user = { email: '', papel: '' };
 
   constructor(
     private service: DadosService,
@@ -29,44 +28,44 @@ export class DadosComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    firebase.auth().onAuthStateChanged((user) => {
-      this.user = user;
-
-      if (this.user) {
-        this.service
-          .getDadosUser(this.user)
-          .then((snapshot: any) => {
-            const data = snapshot.val();
-
-            this.formDados.patchValue(data);
-            this.isHideLoading = true;
-          })
-          .catch((erro) => {
-            console.error(erro);
-            this.isHideLoading = true;
-          });
-      } else {
+    this.service
+      .getDadosUser()
+      .then((user: any) => {
+        this.user.email = user[0]?.email;
+        this.user.papel = user[1]?.papel;
+        if (user[1]) {
+          this.formDados.patchValue(user[1]);
+        }
+        this.isHideLoading = true;
+      })
+      .catch((erro) => {
+        console.error(erro);
+        this.isHideLoading = true;
         this.poNotification.warning('Sessão expirada!');
         this.router.navigateByUrl('login');
-      }
-    });
+      });
   }
 
   saveDados(): void {
+    this.loadingConfirmar = true;
     this.service
       .salvaDados(
-        this.user,
+        this.user.email,
         this.formDados.value.endereco,
         this.formDados.value.numero,
         this.formDados.value.complemento,
-        this.formDados.value.telefone
+        this.formDados.value.telefone,
+        this.user.papel
       )
       .then(() => {
         this.poNotification.success('Dados salvos!');
+        this.loadingConfirmar = false;
+        this.router.navigateByUrl('agendar');
       })
       .catch((erro) => {
         console.error(erro);
         this.poNotification.error('Erro ao tentar salvar os dados!');
+        this.loadingConfirmar = false;
       });
   }
 }

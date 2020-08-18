@@ -1,0 +1,43 @@
+<po-page-list
+  p-title="Admin. Serviços"
+  [p-filter]="filterSettings"
+  [p-actions]="actions"
+>
+  <po-list-view
+    p-property-title="titulo"
+    [p-actions]="listActions"
+    [p-items]="items"
+    [p-literals]="customLiterals"
+  >
+    <ng-template p-list-view-content-template let-item>
+      <div class="po-row">
+        <po-info
+          class="po-md-6"
+          p-label="Descrição"
+          [p-value]="item.descricao"
+        ></po-info>
+        <po-checkbox-group
+          class="po-md-6"
+          p-label="Dados de cliente obrigatório"
+          [p-options]="obrigatorioOptions"
+          name="obrigatorio"
+          [(ngModel)]="item.obrigatorio"
+          p-disabled
+        >
+        </po-checkbox-group>
+      </div>
+    </ng-template>
+  </po-list-view>
+  <div>
+    <po-loading-overlay [hidden]="isHideLoading"></po-loading-overlay>
+  </div>
+</po-page-list>
+
+<po-modal
+  #excluirModal
+  [p-primary-action]="confirm"
+  [p-secondary-action]="close"
+  p-title="Excluir"
+>
+  Deseja realmente excluir o item?
+</po-modal>

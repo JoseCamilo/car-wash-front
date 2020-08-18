@@ -10,6 +10,9 @@ import { PoCalendarModule } from '@po-ui/ng-components';
 import { PoNotificationModule } from '@po-ui/ng-components';
 import { AgendarService } from './agendar.service';
 import { PoBreadcrumbModule } from '@po-ui/ng-components';
+import { ServicosService } from '../servicos/servicos.service';
+import { DadosService } from '../dados/dados.service';
+import { ExpedienteService } from '../expediente/expediente.service';
 
 @NgModule({
   imports: [
@@ -25,6 +28,6 @@ import { PoBreadcrumbModule } from '@po-ui/ng-components';
     PoBreadcrumbModule,
   ],
   declarations: [AgendarComponent],
-  providers: [AgendarService],
+  providers: [AgendarService, ServicosService, DadosService, ExpedienteService],
 })
 export class AgendarModule {}

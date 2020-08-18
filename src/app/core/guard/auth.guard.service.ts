@@ -10,7 +10,7 @@ export class AutenticacaoGuard implements CanActivateChild {
   canActivateChild(): Observable<boolean> | boolean {
     return new Observable<boolean>((observer) => {
       firebase.auth().onAuthStateChanged((user) => {
-        if (user) {
+        if (user && !user.isAnonymous) {
           observer.next(true);
           observer.complete();
         } else {

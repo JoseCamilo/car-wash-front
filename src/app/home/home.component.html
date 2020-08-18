@@ -1,4 +1,17 @@
 <po-page-default p-title="Meus agendamentos">
+  <div class="po-row">
+    <po-button
+      class="po-sm-12"
+      (p-click)="onAgendar()"
+      p-icon="po-icon-calendar"
+      p-label="Agendar"
+      p-type="primary"
+    >
+    </po-button>
+  </div>
+
+  <po-divider></po-divider>
+
   <po-list-view
     p-property-title="carro"
     [p-actions]="listActions"
@@ -71,33 +84,29 @@
     </ng-template>
   </po-list-view>
   <div>
-    <po-loading-overlay [hidden]="isHideLoading"></po-loading-overlay>
+    <po-loading-overlay [hidden]="isLoading"></po-loading-overlay>
   </div>
 
   <po-divider></po-divider>
 
-  <div class="po-row">
-    <po-button
-      class="po-sm-12"
-      (p-click)="onAgendar()"
-      p-icon="po-icon-calendar"
-      p-label="Agendar"
-      p-type="primary"
-    >
-    </po-button>
-  </div>
-
-  <po-divider></po-divider>
-
-  <po-list-view
-    p-property-title="titulo"
-    [p-actions]="servicosActions"
-    [p-items]="servicos"
-  >
-    <ng-template p-list-view-content-template let-item>
-      <div class="po-row">
-        <font class="po-sm-12 po-font-text">{{ item.descricao }}</font>
+  <div *ngIf="isLoadingSrv" @listEnterSmoothAnimation>
+    <div class="po-row">
+      <div class="po-md-12 po-text-center po-font-text-large-bold po-m-2">
+        Nossos serviços
       </div>
-    </ng-template>
-  </po-list-view>
+    </div>
+
+    <po-list-view
+      p-property-title="titulo"
+      [p-actions]="servicosActions"
+      [p-items]="servicos"
+      [p-literals]="customLiteralsServicos"
+    >
+      <ng-template p-list-view-content-template let-item>
+        <div class="po-row">
+          <font class="po-sm-12 po-font-text">{{ item.descricao }}</font>
+        </div>
+      </ng-template>
+    </po-list-view>
+  </div>
 </po-page-default>

@@ -1,0 +1,93 @@
+<po-page-default p-title="Expediente">
+  <div class="po-row">
+    <div class="po-md-12 po-text-center po-font-text">
+      Cadastre os horários em que os clientes poderão agendar os serviços
+    </div>
+  </div>
+
+  <form [formGroup]="formExpediente">
+    <div>
+      <po-loading-overlay [hidden]="isHideLoading"></po-loading-overlay>
+    </div>
+    <div class="po-row po-mt-3 po-mt-sm-1">
+      <div class="po-md-12">
+        <po-checkbox-group
+          p-columns="4"
+          formControlName="segunda"
+          p-label="Segunda-feira"
+          p-help="Selecione os horários disponíveis de Segunda-feira"
+          [p-options]="horaOptions"
+        >
+        </po-checkbox-group>
+        <po-checkbox-group
+          p-columns="4"
+          formControlName="terca"
+          p-label="Terça-feira"
+          p-help="Selecione os horários disponíveis de Terça-feira"
+          [p-options]="horaOptions"
+        >
+        </po-checkbox-group>
+        <po-checkbox-group
+          p-columns="4"
+          formControlName="quarta"
+          p-label="Quarta-feira"
+          p-help="Selecione os horários disponíveis de Quarta-feira"
+          [p-options]="horaOptions"
+        >
+        </po-checkbox-group>
+        <po-checkbox-group
+          p-columns="4"
+          formControlName="quinta"
+          p-label="Quinta-feira"
+          p-help="Selecione os horários disponíveis de Quinta-feira"
+          [p-options]="horaOptions"
+        >
+        </po-checkbox-group>
+        <po-checkbox-group
+          p-columns="4"
+          formControlName="sexta"
+          p-label="Sexta-feira"
+          p-help="Selecione os horários disponíveis de Sexta-feira"
+          [p-options]="horaOptions"
+        >
+        </po-checkbox-group>
+        <po-checkbox-group
+          p-columns="4"
+          formControlName="sabado"
+          p-label="Sabado"
+          p-help="Selecione os horários disponíveis de Sabado"
+          [p-options]="horaOptions"
+        >
+        </po-checkbox-group>
+        <po-checkbox-group
+          p-columns="4"
+          formControlName="domingo"
+          p-label="Domingo"
+          p-help="Selecione os horários disponíveis de Domingo"
+          [p-options]="horaOptions"
+        >
+        </po-checkbox-group>
+        <po-number
+          formControlName="quantidade"
+          p-label="Quantidade por horário"
+          p-help="Define quantos clientes podem agendar um serviço no mesmo horário"
+          p-clean
+        >
+        </po-number>
+      </div>
+    </div>
+  </form>
+
+  <div class="po-row">
+    <po-button
+      class="po-md-6 po-offset-md-3 po-offset-lg-3 po-offset-xl-3"
+      p-type="primary"
+      p-icon="po-icon-ok"
+      p-label="Salvar"
+      [p-loading]="loadingConfirmar"
+      [p-disabled]="!formExpediente.valid"
+      (p-click)="saveExpediente()"
+    >
+    </po-button>
+  </div>
+</po-page-default>

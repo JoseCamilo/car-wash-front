@@ -8,7 +8,6 @@ import { PoListViewModule } from '@po-ui/ng-components';
 import { PoInfoModule } from '@po-ui/ng-components';
 import { PoTagModule } from '@po-ui/ng-components';
 import { PoButtonModule } from '@po-ui/ng-components';
-import { PoModalModule } from '@po-ui/ng-components';
 import { PoFieldModule } from '@po-ui/ng-components';
 import { PoCalendarModule } from '@po-ui/ng-components';
 import { PoNotificationModule } from '@po-ui/ng-components';
@@ -16,6 +15,7 @@ import { PoTooltipModule } from '@po-ui/ng-components';
 import { HomeService } from './home.service';
 import { PoDividerModule } from '@po-ui/ng-components';
 import { PoLoadingModule } from '@po-ui/ng-components';
+import { ServicosService } from '../servicos/servicos.service';
 
 @NgModule({
   imports: [
@@ -27,7 +27,6 @@ import { PoLoadingModule } from '@po-ui/ng-components';
     PoInfoModule,
     PoTagModule,
     PoButtonModule,
-    PoModalModule,
     ReactiveFormsModule,
     PoFieldModule,
     PoCalendarModule,
@@ -37,6 +36,6 @@ import { PoLoadingModule } from '@po-ui/ng-components';
     PoLoadingModule,
   ],
   declarations: [HomeComponent],
-  providers: [HomeService],
+  providers: [HomeService, ServicosService],
 })
 export class HomeModule {}

@@ -6,16 +6,19 @@ import {
 } from '@po-ui/ng-components';
 import { HomeService } from './home.service';
 import { Router } from '@angular/router';
-import * as firebase from 'firebase';
+import { ServicosService } from '../servicos/servicos.service';
+import { listEnterSmoothAnimation } from '../shared/animations';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
+  animations: [listEnterSmoothAnimation],
 })
 export class HomeComponent implements OnInit {
   private myItems = [];
-  isHideLoading = false;
+  isLoading = false;
+  isLoadingSrv = false;
 
   private myListActions: Array<PoListViewAction> = [
     {
@@ -26,17 +29,7 @@ export class HomeComponent implements OnInit {
     },
   ];
 
-  private myServicos: Array<any> = [
-    {
-      titulo: 'Lavagem ecológica',
-      descricao: 'Sem a utilização de água, nós limpamos o seu automóvel',
-    },
-    {
-      titulo: 'Lavagem em casa',
-      descricao:
-        'Nós levamos os nossos produtos e realizamos o serviço na sua garagem',
-    },
-  ];
+  private myServicos: Array<any> = [];
 
   private myServicosActions: Array<PoListViewAction> = [
     {
@@ -46,26 +39,27 @@ export class HomeComponent implements OnInit {
     },
   ];
 
-  public myTipoServicoOptions = [];
-
   customLiterals: PoListViewLiterals = {
     noData: 'Você não tem nenhum agendamento',
+  };
+  customLiteralsServicos: PoListViewLiterals = {
+    noData: 'Lista de serviços vazia',
   };
 
   constructor(
     private service: HomeService,
     private router: Router,
-    private poNotification: PoNotificationService
+    private poNotification: PoNotificationService,
+    private servicosService: ServicosService
   ) {}
 
   ngOnInit(): void {
     this.onRefreshAgendas();
 
-    this.myTipoServicoOptions = [
-      { value: 'lavagem-em-casa', label: 'Lavagem em casa' },
-      { value: 'retirar-em-casa', label: 'Retirar em casa' },
-      { value: 'deixarei-na-loja', label: 'Deixarei na Loja' },
-    ];
+    this.servicosService.getServicos().then((res) => {
+      this.myServicos = res;
+      this.isLoadingSrv = true;
+    });
   }
 
   get items(): Array<any> {
@@ -89,10 +83,10 @@ export class HomeComponent implements OnInit {
       .getAgendas()
       .then((res) => {
         this.myItems = res;
-        this.isHideLoading = true;
+        this.isLoading = true;
       })
       .catch((error) => {
-        this.isHideLoading = true;
+        this.isLoading = true;
         this.poNotification.error(
           'Desculpa, tivemos um erro ao buscar seu agendamento!'
         );
@@ -100,7 +94,7 @@ export class HomeComponent implements OnInit {
   }
 
   cancelar(item): void {
-    this.isHideLoading = false;
+    this.isLoading = false;
     this.service
       .cancelAgenda(item)
       .then(() => {

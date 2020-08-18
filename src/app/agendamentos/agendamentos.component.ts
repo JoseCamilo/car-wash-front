@@ -50,28 +50,6 @@ export class AgendamentosComponent implements OnInit {
     },
   ];
 
-  private myServicos: Array<any> = [
-    {
-      titulo: 'Lavagem ecológica',
-      descricao: 'Sem a utilização de água, nós limpamos o seu automóvel',
-    },
-    {
-      titulo: 'Lavagem em casa',
-      descricao:
-        'Nós levamos os nossos produtos e realizamos o serviço na sua garagem',
-    },
-  ];
-
-  private myServicosActions: Array<PoListViewAction> = [
-    {
-      label: 'Agendar',
-      action: this.onAgendar.bind(this),
-      icon: 'po-icon-calendar',
-    },
-  ];
-
-  public myTipoServicoOptions = [];
-
   customLiterals: PoListViewLiterals = {
     noData: 'Não tem nenhum agendamento',
   };
@@ -84,12 +62,6 @@ export class AgendamentosComponent implements OnInit {
 
   ngOnInit(): void {
     this.onRefreshAgendas();
-
-    this.myTipoServicoOptions = [
-      { value: 'lavagem-em-casa', label: 'Lavagem em casa' },
-      { value: 'retirar-em-casa', label: 'Retirar em casa' },
-      { value: 'deixarei-na-loja', label: 'Deixarei na Loja' },
-    ];
   }
 
   get items(): Array<any> {
@@ -98,14 +70,6 @@ export class AgendamentosComponent implements OnInit {
 
   get listActions(): Array<PoListViewAction> {
     return this.myListActions;
-  }
-
-  get servicos(): Array<any> {
-    return this.myServicos;
-  }
-
-  get servicosActions(): Array<any> {
-    return this.myServicosActions;
   }
 
   onRefreshAgendas(): void {

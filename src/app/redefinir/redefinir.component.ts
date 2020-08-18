@@ -36,7 +36,13 @@ export class RedefinirComponent implements OnInit {
       .catch((error) => {
         this.loadingConfirmar = false;
         console.error(error);
-        this.poNotification.error(error.message);
+        if (error.code.includes('user-not-found')) {
+          this.poNotification.error(
+            'Não encontramos um usuário com este endereço de email!'
+          );
+        } else {
+          this.poNotification.error(error.message);
+        }
       });
   }
 }

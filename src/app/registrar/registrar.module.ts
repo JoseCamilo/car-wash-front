@@ -11,6 +11,7 @@ import {
   PoButtonModule,
 } from '@po-ui/ng-components';
 import { RegistrarRouting } from './registrar.routing';
+import { DadosService } from '../dados/dados.service';
 
 @NgModule({
   imports: [
@@ -25,6 +26,6 @@ import { RegistrarRouting } from './registrar.routing';
     PoButtonModule,
   ],
   declarations: [RegistrarComponent],
-  providers: [RegistrarService],
+  providers: [RegistrarService, DadosService],
 })
 export class RegistrarModule {}

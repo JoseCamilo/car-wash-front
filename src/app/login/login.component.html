@@ -1,6 +1,7 @@
 <po-page-login
+  @enterSmoothTrigger
+  class="po-md-6"
   p-hide-remember-user="true"
-  p-background="assets/images/img1.jpg"
   [p-literals]="customLiterals"
   p-register-url="/registrar"
   p-recovery="/redefinir"
@@ -10,3 +11,5 @@
   (p-login-change)="cleanErro()"
   (p-password-change)="cleanErro()"
 ></po-page-login>
+
+<app-banner class="po-md-6"></app-banner>

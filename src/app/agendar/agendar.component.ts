@@ -3,7 +3,9 @@ import { FormGroup, FormControl } from '@angular/forms';
 import { PoSelectOption, PoNotificationService } from '@po-ui/ng-components';
 import { AgendarService } from './agendar.service';
 import { Router } from '@angular/router';
-import * as firebase from 'firebase';
+import { ServicosService } from '../servicos/servicos.service';
+import { DadosService } from '../dados/dados.service';
+import { ExpedienteService } from '../expediente/expediente.service';
 
 @Component({
   selector: 'app-agendar',
@@ -23,10 +25,19 @@ export class AgendarComponent implements OnInit {
   public myHoraOptions: PoSelectOption[] = [];
   public myTipoServicoOptions: PoSelectOption[] = [];
 
-  user;
+  user = { email: '', papel: '', dados: null };
+  loadingServicos = true;
+  loadingHora = true;
+  tipoServicos = [];
+  msgObrigatorio = '';
+  descricaoServico = '';
+  placeHora = '';
 
   constructor(
     private service: AgendarService,
+    private servicosService: ServicosService,
+    private dadosService: DadosService,
+    private expedienteService: ExpedienteService,
     private poNotification: PoNotificationService,
     private router: Router
   ) {}
@@ -40,22 +51,35 @@ export class AgendarComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    firebase.auth().onAuthStateChanged((user) => {
-      this.user = user.email;
-    });
+    this.dadosService
+      .getDadosUser()
+      .then((user: any) => {
+        this.user.email = user[0].email;
+        this.user.dados = user[1];
+      })
+      .catch((erro) => {
+        console.error(erro);
+        this.poNotification.warning('Sessão expirada!');
+        this.router.navigateByUrl('login');
+      });
 
-    this.myTipoServicoOptions = [
-      { value: 'lavagem-em-casa', label: 'Lavagem em casa' },
-      { value: 'retirar-em-casa', label: 'Retirar em casa' },
-      { value: 'deixarei-na-loja', label: 'Deixarei na Loja' },
-    ];
-
-    this.myHoraOptions = [
-      { value: '15:00', label: '15:00' },
-      { value: '15:30', label: '15:30' },
-      { value: '16:00', label: '16:00' },
-      { value: '16:30', label: '16:30' },
-    ];
+    this.servicosService
+      .getServicos()
+      .then((res: Array<any>) => {
+        this.tipoServicos = res;
+        res.forEach((el) => {
+          this.myTipoServicoOptions.push({
+            value: el.key,
+            label: el.titulo,
+          });
+        });
+        this.loadingServicos = false;
+      })
+      .catch((error) => {
+        this.poNotification.error(
+          'Desculpa, tivemos um erro ao buscar os Servicos!'
+        );
+      });
   }
 
   saveAgenda(): void {
@@ -68,12 +92,21 @@ export class AgendarComponent implements OnInit {
     };
 
     this.service
-      .salvaAgenda(this.user, agenda)
+      .salvaAgenda(this.user.email, agenda)
       .then(() => {
-        this.poNotification.success(
-          'Sua solicitação de agendamento foi enviada!'
-        );
-        this.router.navigateByUrl('home');
+        this.service
+          .salvaHoraInCalendario(agenda)
+          .then(() => {
+            this.poNotification.success(
+              'Sua solicitação de agendamento foi enviada!'
+            );
+            this.router.navigateByUrl('home');
+          })
+          .catch(() => {
+            this.poNotification.error(
+              'Desculpa, tivemos um problema no agendamento!'
+            );
+          });
       })
       .catch((erro) => {
         console.error(erro);
@@ -84,10 +117,90 @@ export class AgendarComponent implements OnInit {
   }
 
   changeCalendar(event): void {
-    this.reloadHoraOptions();
+    this.reloadHoraOptions(event);
   }
-  reloadHoraOptions(): void {
+  reloadHoraOptions(event: string /*2020-08-31*/): void {
+    event = event + '';
+    this.loadingHora = true;
     this.formAgendar.patchValue({ hora: '' });
+    const diaSemana = this.getDiaSemana(event);
+    const resultOption: Array<PoSelectOption> = [];
+
+    // Busca hoarario no cadastro de expediente
+    this.expedienteService
+      .getExpediente()
+      .then((expediente: any) => {
+        let horasExpediente: Array<any> = [];
+        if (expediente[diaSemana].length) {
+          horasExpediente = [...expediente[diaSemana]];
+        } else {
+          this.placeHora = 'Não existe horário disponível neste dia';
+          return;
+        }
+
+        // Verifica se o horario esta disponivel conforme Calendário
+        this.service
+          .getHorasByDataCalendario(event)
+          .then((hrsCalendario: any[]) => {
+            horasExpediente.forEach((hrExpediente) => {
+              let horaDisponivel = true;
+
+              hrsCalendario.forEach((hrCalendario) => {
+                if (horaDisponivel && hrCalendario.hora === hrExpediente) {
+                  if (hrCalendario.qtd + 1 > expediente.quantidade) {
+                    horaDisponivel = false;
+                  }
+                }
+              });
+
+              if (horaDisponivel) {
+                resultOption.push({ value: hrExpediente, label: hrExpediente });
+              }
+            });
+
+            if (resultOption.length) {
+              this.placeHora = '';
+            } else {
+              this.placeHora = 'Não existe horário disponível neste dia';
+            }
+
+            this.myHoraOptions = [...resultOption];
+            this.loadingHora = false;
+          })
+          .catch((error) => {
+            this.loadingHora = false;
+            this.poNotification.error(
+              'Desculpa, tivemos um problema para carregar os horários disponíveis!'
+            );
+          });
+      })
+      .catch((error) => {
+        this.loadingHora = false;
+        this.poNotification.error(
+          'Desculpa, tivemos um problema para carregar os horários disponíveis!'
+        );
+      });
+  }
+  getDiaSemana(data: string /*2020-08-31*/): string {
+    const days = [
+      'domingo',
+      'segunda',
+      'terca',
+      'quarta',
+      'quinta',
+      'sexta',
+      'sabado',
+      'domingo',
+    ];
+
+    const ano = data.substr(0, 4);
+    const mes = data.substr(5, 2);
+    const dia = data.substr(8, 2);
+
+    const day = new Date(+ano, +mes - 1, +dia).getDay();
+    const semana = days[day];
+
+    return semana;
   }
 
   getDescTipo(tipo): string {
@@ -98,5 +211,46 @@ export class AgendarComponent implements OnInit {
       }
     });
     return label;
+  }
+
+  changeServico(event): void {
+    let invalid = false;
+    let obrigatorios = '';
+    this.msgObrigatorio = '';
+
+    const pos = this.tipoServicos
+      .map((e) => {
+        return e.key;
+      })
+      .indexOf(event);
+
+    this.descricaoServico = this.tipoServicos[pos].descricao;
+
+    if (this.tipoServicos[pos].obrigatorio.length > 0) {
+      this.tipoServicos[pos].obrigatorio.forEach((element) => {
+        if (element === 'telefone' && !invalid) {
+          invalid = this.user.dados.telefone ? false : true;
+        } else if (element === 'endereco' && !invalid) {
+          invalid =
+            this.user.dados.endereco && this.user.dados.numero ? false : true;
+        }
+      });
+
+      if (invalid) {
+        this.tipoServicos[pos].obrigatorio.forEach((element) => {
+          let label = '';
+          label = element === 'telefone' ? 'Telefone' : label;
+          label = element === 'endereco' ? 'Endereço' : label;
+          obrigatorios += obrigatorios ? `/${label}` : label;
+        });
+
+        if (obrigatorios) {
+          this.msgObrigatorio = `Para contratar este serviço, você precisa completar seu cadastro com a informação de ${obrigatorios}`;
+        }
+      }
+    }
+  }
+  meusDados(): void {
+    this.router.navigateByUrl('/dados');
   }
 }

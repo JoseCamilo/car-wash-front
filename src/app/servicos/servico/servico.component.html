@@ -1,0 +1,52 @@
+<po-breadcrumb
+  [p-items]="[
+    { label: 'Admin. Serviços', link: '/servicos' },
+    { label: 'Cadastro' }
+  ]"
+>
+</po-breadcrumb>
+
+<po-page-default p-title="Cadastro de Serviço">
+  <form [formGroup]="formServico">
+    <div>
+      <po-loading-overlay [hidden]="isHideLoading"></po-loading-overlay>
+    </div>
+    <div class="po-row po-mt-3 po-mt-sm-1">
+      <div class="po-md-6 po-offset-md-3 po-offset-lg-3 po-offset-xl-3">
+        <po-input
+          formControlName="titulo"
+          p-label="Título"
+          p-help="Este será o título de destaque do serviço"
+          p-clean
+        >
+        </po-input>
+        <po-textarea
+          formControlName="descricao"
+          p-label="Descrição"
+          p-help="Uma descrição detalhada ajuda o cliente na hora de escolher o serviço"
+          p-clean
+        >
+        </po-textarea>
+        <po-checkbox-group
+          formControlName="obrigatorio"
+          p-label="Dados de cliente obrigatório"
+          [p-options]="obrigatorioOptions"
+        >
+        </po-checkbox-group>
+      </div>
+    </div>
+  </form>
+
+  <div class="po-row">
+    <po-button
+      class="po-md-6 po-offset-md-3 po-offset-lg-3 po-offset-xl-3"
+      p-type="primary"
+      p-icon="po-icon-ok"
+      p-label="Salvar"
+      [p-loading]="loadingConfirmar"
+      [p-disabled]="!formServico.valid"
+      (p-click)="saveServico()"
+    >
+    </po-button>
+  </div>
+</po-page-default>

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { PoNavbarItem, PoNavbarIconAction } from '@po-ui/ng-components';
 import * as firebase from 'firebase';
 import { Router } from '@angular/router';
+import { DadosService } from '../dados/dados.service';
 
 @Component({
   selector: 'app-menu',
@@ -9,12 +10,9 @@ import { Router } from '@angular/router';
   styleUrls: ['./menu.component.scss'],
 })
 export class MenuComponent implements OnInit {
-  readonly items: Array<PoNavbarItem> = [
+  public items: Array<PoNavbarItem> = [
     { label: 'Agenda', link: '/home' },
     { label: 'Meus dados', link: '/dados' },
-    { label: 'Agendamentos', link: '/agendamentos' },
-    { label: 'Ferramentas', link: '/tools' },
-    { label: 'Sair', action: this.onSair.bind(this) },
   ];
 
   readonly iconActions: Array<PoNavbarIconAction> = [
@@ -35,9 +33,25 @@ export class MenuComponent implements OnInit {
     },
   ];
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private serviceDados: DadosService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    const menuAdmin = [
+      { label: 'Agendamentos', link: '/agendamentos' },
+      { label: 'Serviços', link: '/servicos' },
+      { label: 'Expediente', link: '/expediente' },
+      { label: 'Sair', action: this.onSair.bind(this) },
+    ];
+    const menuUsr = [{ label: 'Sair', action: this.onSair.bind(this) }];
+
+    this.serviceDados.getDadosUser().then((user: any) => {
+      if (user[1]?.papel === 'admin') {
+        this.items = [...this.items, ...menuAdmin];
+      } else {
+        this.items = [...this.items, ...menuUsr];
+      }
+    });
+  }
 
   onSair(): void {
     firebase.auth().signOut();

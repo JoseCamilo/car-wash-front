@@ -1,0 +1,19 @@
+<div *ngIf="isHideLoading" @listEnterSmoothAnimation>
+  <div class="po-row">
+    <div class="po-md-12 po-text-center po-font-text-large-bold po-m-2">
+      Nossos serviços
+    </div>
+  </div>
+
+  <po-list-view
+    p-property-title="titulo"
+    [p-items]="servicos"
+    [p-literals]="customLiteralsServicos"
+  >
+    <ng-template p-list-view-content-template let-item>
+      <div class="po-row">
+        <font class="po-sm-12 po-font-text">{{ item.descricao }}</font>
+      </div>
+    </ng-template>
+  </po-list-view>
+</div>
