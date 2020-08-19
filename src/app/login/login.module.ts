@@ -8,6 +8,7 @@ import { PoPageLoginModule } from '@po-ui/ng-templates';
 import { BannerComponent } from './banner/banner.component';
 import { ServicosService } from '../servicos/servicos.service';
 import { PoListViewModule } from '@po-ui/ng-components';
+import { LojaDadosService } from '../loja-dados/loja-dados.service';
 
 @NgModule({
   imports: [
@@ -18,6 +19,6 @@ import { PoListViewModule } from '@po-ui/ng-components';
     PoListViewModule,
   ],
   declarations: [LoginComponent, BannerComponent],
-  providers: [LoginService, ServicosService],
+  providers: [LoginService, ServicosService, LojaDadosService],
 })
 export class LoginModule {}

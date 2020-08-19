@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { PoListViewLiterals } from '@po-ui/ng-components';
 import { ServicosService } from '../../servicos/servicos.service';
 import { listEnterSmoothAnimation } from '../../shared/animations';
+import { LojaDadosService } from 'src/app/loja-dados/loja-dados.service';
 
 @Component({
   selector: 'app-banner',
@@ -11,6 +12,7 @@ import { listEnterSmoothAnimation } from '../../shared/animations';
 })
 export class BannerComponent implements OnInit {
   private myServicos: Array<any> = [];
+  public loja: any = null;
 
   customLiteralsServicos: PoListViewLiterals = {
     noData: 'Lista de serviços vazia',
@@ -18,16 +20,30 @@ export class BannerComponent implements OnInit {
 
   isHideLoading = false;
 
-  constructor(private servicosService: ServicosService) {}
+  constructor(
+    private servicosService: ServicosService,
+    private lojaDadosService: LojaDadosService
+  ) {}
 
   ngOnInit(): void {
     this.servicosService.getServicosAnonymous().then((res) => {
-      this.myServicos = res;
-      this.isHideLoading = true;
+      this.lojaDadosService
+        .getLojaDados()
+        .then((dados) => {
+          this.loja = dados;
+          this.myServicos = res;
+          this.isHideLoading = true;
+        })
+        .catch((erro) => {
+          this.myServicos = res;
+          this.isHideLoading = true;
+        });
     });
   }
 
   get servicos(): Array<any> {
     return this.myServicos;
   }
+
+  onMap(): void {}
 }

@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ExpedienteService } from './expediente.service';
-import { Router } from '@angular/router';
 import { FormGroup, FormControl } from '@angular/forms';
 import {
   PoNotificationService,
@@ -31,7 +30,6 @@ export class ExpedienteComponent implements OnInit {
 
   constructor(
     private service: ExpedienteService,
-    private router: Router,
     private poNotification: PoNotificationService
   ) {}
 

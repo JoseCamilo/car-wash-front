@@ -20,6 +20,7 @@ export class MenuComponent implements OnInit {
     { label: 'Serviços', link: '/servicos' },
     { label: 'Expediente', link: '/expediente' },
     { label: 'Usuários', link: '/usuarios' },
+    { label: 'Dados da Loja', link: '/dados-loja' },
   ];
   readonly menuSair = [{ label: 'Sair', action: this.onSair.bind(this) }];
 

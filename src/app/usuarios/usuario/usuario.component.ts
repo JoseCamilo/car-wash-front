@@ -19,7 +19,7 @@ export class UsuarioComponent implements OnInit {
   usuario;
 
   papelOptions: PoSelectOption[] = [
-    { value: '', label: 'Cliente' },
+    { value: 'cliente', label: 'Cliente' },
     { value: 'admin', label: 'Administrador' },
   ];
 

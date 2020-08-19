@@ -1,0 +1,48 @@
+<po-page-default p-title="Dados da Loja">
+  <form [formGroup]="formLojaDados">
+    <div>
+      <po-loading-overlay [hidden]="isHideLoading"></po-loading-overlay>
+    </div>
+    <div class="po-row po-mt-3 po-mt-sm-1">
+      <div class="po-md-12">
+        <po-textarea
+          formControlName="msgBanner"
+          p-label="Mensagem Propaganda"
+          p-help="Esta mensagem aparecerá na tela de login e agenda, junto com os serviços que a loja oferece"
+        >
+        </po-textarea>
+        <po-textarea
+          formControlName="promocoes"
+          p-label="Promoções"
+          p-help="Aparecerá junto com as propagandas"
+        >
+        </po-textarea>
+        <po-textarea
+          formControlName="endereco"
+          p-label="Endereço"
+          p-help="Aparecerá junto com as propagandas"
+        >
+        </po-textarea>
+        <po-textarea
+          formControlName="linkEndereco"
+          p-label="Link de endereço"
+          p-help="Deve ser um link de mapa apontando para o endereço da loja. O icone com o link aparecerá junto ao endereço"
+        >
+        </po-textarea>
+      </div>
+    </div>
+  </form>
+
+  <div class="po-row">
+    <po-button
+      class="po-md-6 po-offset-md-3 po-offset-lg-3 po-offset-xl-3"
+      p-type="primary"
+      p-icon="po-icon-ok"
+      p-label="Salvar"
+      [p-loading]="loadingConfirmar"
+      [p-disabled]="!formLojaDados.valid"
+      (p-click)="saveLojaDados()"
+    >
+    </po-button>
+  </div>
+</po-page-default>

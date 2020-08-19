@@ -16,6 +16,7 @@ import { HomeService } from './home.service';
 import { PoDividerModule } from '@po-ui/ng-components';
 import { PoLoadingModule } from '@po-ui/ng-components';
 import { ServicosService } from '../servicos/servicos.service';
+import { LojaDadosService } from '../loja-dados/loja-dados.service';
 
 @NgModule({
   imports: [
@@ -36,6 +37,6 @@ import { ServicosService } from '../servicos/servicos.service';
     PoLoadingModule,
   ],
   declarations: [HomeComponent],
-  providers: [HomeService, ServicosService],
+  providers: [HomeService, ServicosService, LojaDadosService],
 })
 export class HomeModule {}

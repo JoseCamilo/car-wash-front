@@ -1,4 +1,34 @@
 <div *ngIf="isHideLoading" @listEnterSmoothAnimation>
+  <div class="po-row po-mt-2" *ngIf="loja">
+    <div
+      class="po-md-12 po-text-center po-font-text-large"
+      *ngIf="loja.msgBanner"
+    >
+      {{ loja.msgBanner }}
+    </div>
+    <div class="po-md-12 po-text-center po-font-text">
+      Nosso endereço é
+      <a *ngIf="loja.endereco" target="_blank" [href]="loja.linkEndereco">{{
+        loja.endereco
+      }}</a>
+      <a
+        *ngIf="loja.linkEndereco"
+        class="po-icon po-icon-pin"
+        target="_blank"
+        [href]="loja.linkEndereco"
+      ></a>
+    </div>
+
+    <div *ngIf="loja.promocoes" class="po-md-12 po-text-center po-mt-2">
+      <div class="po-font-text-large-bold">
+        Promoções
+      </div>
+      <div class="po-font-text">
+        {{ loja.promocoes }}
+      </div>
+    </div>
+  </div>
+
   <div class="po-row">
     <div class="po-md-12 po-text-center po-font-text-large-bold po-m-2">
       Nossos serviços

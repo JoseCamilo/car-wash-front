@@ -97,6 +97,14 @@ const routes: Routes = [
             (m) => m.ExpedienteModule
           ),
       },
+      {
+        path: 'dados-loja',
+        canActivate: [AdminAutenticacaoGuard],
+        loadChildren: () =>
+          import('./loja-dados/loja-dados.module').then(
+            (m) => m.LojaDadosModule
+          ),
+      },
     ],
   },
 ];

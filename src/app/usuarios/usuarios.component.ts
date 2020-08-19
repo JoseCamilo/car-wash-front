@@ -68,6 +68,7 @@ export class UsuariosComponent implements OnInit {
 
   papelOptions: any[] = [
     { value: '', label: 'Cliente' },
+    { value: 'cliente', label: 'Cliente' },
     { value: 'admin', label: 'Administrador' },
   ];
 

@@ -8,6 +8,7 @@ import { HomeService } from './home.service';
 import { Router } from '@angular/router';
 import { ServicosService } from '../servicos/servicos.service';
 import { listEnterSmoothAnimation } from '../shared/animations';
+import { LojaDadosService } from '../loja-dados/loja-dados.service';
 
 @Component({
   selector: 'app-home',
@@ -19,6 +20,7 @@ export class HomeComponent implements OnInit {
   private myItems = [];
   isHideLoading = false;
   isLoadingSrv = false;
+  public loja: any = null;
 
   private myListActions: Array<PoListViewAction> = [
     {
@@ -50,15 +52,25 @@ export class HomeComponent implements OnInit {
     private service: HomeService,
     private router: Router,
     private poNotification: PoNotificationService,
-    private servicosService: ServicosService
+    private servicosService: ServicosService,
+    private lojaDadosService: LojaDadosService
   ) {}
 
   ngOnInit(): void {
     this.onRefreshAgendas();
 
     this.servicosService.getServicos().then((res) => {
-      this.myServicos = res;
-      this.isLoadingSrv = true;
+      this.lojaDadosService
+        .getLojaDados()
+        .then((dados) => {
+          this.loja = dados;
+          this.myServicos = res;
+          this.isLoadingSrv = true;
+        })
+        .catch((erro) => {
+          this.myServicos = res;
+          this.isLoadingSrv = true;
+        });
     });
   }
 
