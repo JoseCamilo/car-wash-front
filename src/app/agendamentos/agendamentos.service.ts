@@ -47,18 +47,14 @@ export class AgendamentosService {
 
   public updateStatusAgenda(agenda, status): Promise<any> {
     return new Promise((resolve, reject) => {
-      firebase.auth().onAuthStateChanged((user) => {
-        if (user) {
-          const userRef = btoa(user.email);
-          agenda.status = status;
-          firebase
-            .database()
-            .ref(`agenda/${userRef}/${agenda.key}`)
-            .set(agenda)
-            .then(() => resolve())
-            .catch(() => reject());
-        }
-      });
+      const userRef = btoa(agenda.email);
+      agenda.status = status;
+      firebase
+        .database()
+        .ref(`agenda/${userRef}/${agenda.key}`)
+        .set(agenda)
+        .then(() => resolve())
+        .catch(() => reject());
     });
   }
 }
