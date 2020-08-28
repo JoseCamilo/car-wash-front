@@ -31,7 +31,17 @@
               "./node_modules/@po-ui/style/css/po-theme-default.min.css",
               "src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [],
+            "allowedCommonJsDependencies": [
+              "firebase",
+              "@firebase/auth",
+              "@firebase/app",
+              "@firebase/functions",
+              "@firebase/database",
+              "@firebase/firestore",
+              "@firebase/performance",
+              "@firebase/remote-config"
+            ]
           },
           "configurations": {
             "production": {
