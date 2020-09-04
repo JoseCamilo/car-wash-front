@@ -1,9 +1,10 @@
 import { NgModule } from '@angular/core';
 import { AgendarComponent } from './agendar.component';
+import { AgendaComponent } from './agenda/agenda.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { AgendarRouting } from './agendar.routing';
-import { PoPageModule } from '@po-ui/ng-components';
+import { PoPageModule, PoDividerModule } from '@po-ui/ng-components';
 import { PoButtonModule } from '@po-ui/ng-components';
 import { PoFieldModule } from '@po-ui/ng-components';
 import { PoCalendarModule } from '@po-ui/ng-components';
@@ -26,8 +27,9 @@ import { ExpedienteService } from '../expediente/expediente.service';
     PoCalendarModule,
     PoNotificationModule,
     PoBreadcrumbModule,
+    PoDividerModule,
   ],
-  declarations: [AgendarComponent],
+  declarations: [AgendarComponent, AgendaComponent],
   providers: [AgendarService, ServicosService, DadosService, ExpedienteService],
 })
 export class AgendarModule {}

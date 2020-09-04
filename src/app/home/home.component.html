@@ -80,6 +80,12 @@
           p-label="Hora"
           [p-value]="item.hora"
         ></po-info>
+        <po-info
+          *ngIf="item.observacao?.length > 0"
+          class="po-md-6"
+          p-label="Observações sobre o serviço"
+          [p-value]="item.observacao"
+        ></po-info>
       </div>
     </ng-template>
   </po-list-view>
@@ -111,9 +117,7 @@
       </div>
 
       <div *ngIf="loja.promocoes" class="po-md-12 po-text-center po-mt-2">
-        <div class="po-font-text-large-bold">
-          Promoções
-        </div>
+        <div class="po-font-text-large-bold">Promoções</div>
         <div class="po-font-text">
           {{ loja.promocoes }}
         </div>

@@ -40,6 +40,12 @@ const routes: Routes = [
           import('./agendar/agendar.module').then((m) => m.AgendarModule),
       },
       {
+        path: 'agendar/:email/:id',
+        canActivate: [AutenticacaoGuard],
+        loadChildren: () =>
+          import('./agendar/agendar.module').then((m) => m.AgendarModule),
+      },
+      {
         path: 'dados',
         canActivate: [AutenticacaoGuard],
         loadChildren: () =>

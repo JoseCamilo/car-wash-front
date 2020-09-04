@@ -21,7 +21,6 @@ export class AgendamentosService {
                 snapAgendas.forEach((snapAg: any) => {
                   const agenda = snapAg.val();
                   agenda.key = snapAg.key;
-                  agenda.email = atob(refKey);
                   agenda.nome = agenda.cliente?.nome;
                   agendas.push(agenda);
                   agendas.sort((a, b) =>
@@ -49,6 +48,8 @@ export class AgendamentosService {
     return new Promise((resolve, reject) => {
       const userRef = btoa(agenda.email);
       agenda.status = status;
+      delete agenda.nome;
+      delete agenda.$showDetail;
       firebase
         .database()
         .ref(`agenda/${userRef}/${agenda.key}`)

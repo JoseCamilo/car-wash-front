@@ -1,7 +1,7 @@
 import * as firebase from 'firebase';
 
 export class AgendarService {
-  public salvaAgenda(email, agenda): Promise<any> {
+  salvaAgenda(email, agenda): Promise<any> {
     const userRef = btoa(email);
     return firebase.database().ref(`agenda/${userRef}`).push(agenda);
   }
@@ -57,5 +57,30 @@ export class AgendarService {
         }
       });
     });
+  }
+
+  getAgenda(emailb64, id): Promise<any> {
+    return new Promise((resolve, reject) => {
+      firebase
+        .database()
+        .ref(`agenda/${emailb64}/${id}`)
+        .once('value')
+        .then((snapshot: any) => {
+          const agenda = snapshot.val();
+          agenda.key = snapshot.key;
+
+          resolve(agenda);
+        })
+        .catch((erro) => {
+          console.log(erro);
+          reject(erro);
+        });
+    });
+  }
+
+  updateAgenda(email, agenda): Promise<any> {
+    const userRef = btoa(email);
+    const keyRef = agenda.key;
+    return firebase.database().ref(`agenda/${userRef}/${keyRef}`).set(agenda);
   }
 }

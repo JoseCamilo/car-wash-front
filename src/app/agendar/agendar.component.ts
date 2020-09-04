@@ -91,6 +91,8 @@ export class AgendarComponent implements OnInit {
       hora: this.formAgendar.value.hora,
       tipo: this.getDescTipo(this.formAgendar.value.tipo),
       cliente: this.user.dados,
+      preco: this.precoServico,
+      email: this.user.email,
     };
 
     this.service
@@ -133,7 +135,7 @@ export class AgendarComponent implements OnInit {
       .getExpediente()
       .then((expediente: any) => {
         let horasExpediente: Array<any> = [];
-        if (expediente[diaSemana].length) {
+        if (expediente[diaSemana]?.length) {
           horasExpediente = [...expediente[diaSemana]];
         } else {
           this.placeHora = 'Não existe horário disponível neste dia';
@@ -160,7 +162,7 @@ export class AgendarComponent implements OnInit {
               }
             });
 
-            if (resultOption.length) {
+            if (resultOption?.length) {
               this.placeHora = '';
             } else {
               this.placeHora = 'Não existe horário disponível neste dia';
@@ -229,7 +231,7 @@ export class AgendarComponent implements OnInit {
     this.descricaoServico = this.tipoServicos[pos].descricao;
     this.precoServico = this.tipoServicos[pos].preco;
 
-    if (this.tipoServicos[pos].obrigatorio.length > 0) {
+    if (this.tipoServicos[pos].obrigatorio?.length > 0) {
       this.tipoServicos[pos].obrigatorio.forEach((element) => {
         if (element === 'telefone' && !invalid) {
           invalid = this.user.dados?.telefone ? false : true;

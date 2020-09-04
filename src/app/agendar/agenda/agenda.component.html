@@ -1,0 +1,83 @@
+<po-breadcrumb
+  [p-items]="[
+    { label: 'Agendamentos', link: '/agendamentos' },
+    { label: 'Agenda' }
+  ]"
+>
+</po-breadcrumb>
+<po-page-default p-title="Agenda">
+  <div class="po-row">
+    <div class="po-md-12 po-text-center po-font-text-large">
+      Conclua o serviço prestado com a observação na agenda
+    </div>
+  </div>
+  <div><po-divider></po-divider></div>
+  <div class="po-row">
+    <po-calendar
+      class="po-sm-12 po-md-6 po-mb-2"
+      [(ngModel)]="dateCalendar"
+    ></po-calendar>
+
+    <form class="po-sm-12 po-md-6" [formGroup]="formAgendar">
+      <div class="po-row">
+        <po-input
+          class="po-sm-12"
+          p-label="Carro"
+          p-icon="po-icon-steering-wheel"
+          p-help="Marca, modelo e cor"
+          formControlName="carro"
+          [p-disabled]="loading"
+        >
+        </po-input>
+      </div>
+      <div class="po-row">
+        <po-input
+          class="po-sm-12"
+          p-label="Hora"
+          formControlName="hora"
+          [p-disabled]="loading"
+        >
+        </po-input>
+      </div>
+      <div class="po-row">
+        <po-input
+          class="po-sm-12"
+          p-label="Tipo de serviço"
+          formControlName="tipo"
+          [p-disabled]="loading"
+        >
+        </po-input>
+      </div>
+      <div class="po-row">
+        <po-input
+          class="po-sm-12"
+          p-label="Preço do serviço R$"
+          formControlName="preco"
+          [p-disabled]="loading"
+        >
+        </po-input>
+      </div>
+      <div class="po-row">
+        <po-textarea
+          class="po-sm-12"
+          p-label="Observações sobre o serviço"
+          p-help="Detalhe para o cliente tudo o que você fez por ele"
+          formControlName="observacao"
+        >
+        </po-textarea>
+      </div>
+      <div class="po-row po-mt-2">
+        <po-button
+          class="po-sm-12"
+          p-type="primary"
+          p-icon="po-icon-ok"
+          p-label="Confirmar"
+          p-loading="loadingAgendar"
+          [p-disabled]="!formAgendar.valid"
+          (p-click)="saveAgenda()"
+        >
+        </po-button>
+      </div>
+    </form>
+  </div>
+</po-page-default>

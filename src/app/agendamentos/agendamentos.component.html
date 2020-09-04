@@ -1,9 +1,7 @@
 <po-page-list p-title="Admin. Agendamentos" [p-filter]="filterSettings">
   <!-- HOJE -->
   <div class="po-row po-mb-2">
-    <div class="po-md-12 po-text-center po-font-subtitle">
-      Hoje
-    </div>
+    <div class="po-md-12 po-text-center po-font-subtitle">Hoje</div>
   </div>
   <po-list-view
     p-property-title="nome"
@@ -88,7 +86,7 @@
     <ng-template p-list-view-detail-template let-item>
       <div class="po-row">
         <po-info
-          class="po-sm-6 po-md-3"
+          class="po-md-6"
           p-label="Email"
           [p-value]="item.email"
         ></po-info>
@@ -103,6 +101,11 @@
           p-value="{{ item.cliente?.endereco }}, {{ item.cliente?.numero }} {{
             item.cliente?.complemento
           }}"
+        ></po-info>
+        <po-info
+          class="po-md-6"
+          p-label="Observações sobre o serviço"
+          [p-value]="item.observacao"
         ></po-info>
       </div>
     </ng-template>
@@ -214,7 +217,7 @@
     <ng-template p-list-view-detail-template let-item>
       <div class="po-row">
         <po-info
-          class="po-sm-6 po-md-3"
+          class="po-md-6"
           p-label="Email"
           [p-value]="item.email"
         ></po-info>
@@ -229,6 +232,11 @@
           p-value="{{ item.cliente?.endereco }}, {{ item.cliente?.numero }} {{
             item.cliente?.complemento
           }}"
+        ></po-info>
+        <po-info
+          class="po-md-6"
+          p-label="Observações sobre o serviço"
+          [p-value]="item.observacao"
         ></po-info>
       </div>
     </ng-template>
@@ -340,7 +348,7 @@
     <ng-template p-list-view-detail-template let-item>
       <div class="po-row">
         <po-info
-          class="po-sm-6 po-md-3"
+          class="po-md-6"
           p-label="Email"
           [p-value]="item.email"
         ></po-info>
@@ -355,6 +363,11 @@
           p-value="{{ item.cliente?.endereco }}, {{ item.cliente?.numero }} {{
             item.cliente?.complemento
           }}"
+        ></po-info>
+        <po-info
+          class="po-md-6"
+          p-label="Observações sobre o serviço"
+          [p-value]="item.observacao"
         ></po-info>
       </div>
     </ng-template>

@@ -111,12 +111,12 @@ export class AgendamentosComponent implements OnInit {
       .updateStatusAgenda(item, status)
       .then(() => {
         this.onRefreshAgendas();
-        this.poNotification.success('Agenda alterada!');
+        this.poNotification.success(`Agenda alterada para o status ${status}!`);
       })
       .catch(() => {
         this.onRefreshAgendas();
         this.poNotification.error(
-          'Desculpa, tivemos um erro ao alterar a agenda!'
+          'Desculpa, tivemos um erro ao alterar o status da agenda!'
         );
       });
   }
@@ -129,6 +129,9 @@ export class AgendamentosComponent implements OnInit {
   }
   updateStatusConcluir(item): void {
     this.updateStatus(item, 'concluido');
+    const email = encodeURIComponent(btoa(item.email));
+    const key = encodeURIComponent(item.key);
+    this.router.navigateByUrl(`agendar/${email}/${key}`);
   }
   updateStatusPendente(item): void {
     this.updateStatus(item, 'pendente');
