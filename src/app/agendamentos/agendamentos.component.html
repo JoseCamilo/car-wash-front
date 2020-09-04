@@ -372,7 +372,9 @@
       </div>
     </ng-template>
   </po-list-view>
-  <div>
-    <po-loading-overlay [hidden]="isHideLoading"></po-loading-overlay>
-  </div>
+
+  <po-loading-overlay
+    [hidden]="isHideLoading"
+    p-screen-lock="true"
+  ></po-loading-overlay>
 </po-page-list>

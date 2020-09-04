@@ -7,7 +7,6 @@ import {
 } from './core/guard/auth.guard.service';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/home', pathMatch: 'full' },
   {
     path: 'login',
     loadChildren: () =>
@@ -22,6 +21,13 @@ const routes: Routes = [
     path: 'redefinir',
     loadChildren: () =>
       import('./redefinir/redefinir.module').then((m) => m.RedefinirModule),
+  },
+  {
+    path: 'agendar-anonimo',
+    loadChildren: () =>
+      import('./agendar/agendar-anonimo/agendar-anonimo.module').then(
+        (m) => m.AgendarAnonimoModule
+      ),
   },
   {
     path: '',
@@ -111,6 +117,7 @@ const routes: Routes = [
             (m) => m.LojaDadosModule
           ),
       },
+      { path: '', redirectTo: '/home', pathMatch: 'full' },
     ],
   },
 ];

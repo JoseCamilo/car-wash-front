@@ -3,6 +3,7 @@ import { PoListViewLiterals } from '@po-ui/ng-components';
 import { ServicosService } from '../../servicos/servicos.service';
 import { listEnterSmoothAnimation } from '../../shared/animations';
 import { LojaDadosService } from 'src/app/loja-dados/loja-dados.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-banner',
@@ -22,7 +23,8 @@ export class BannerComponent implements OnInit {
 
   constructor(
     private servicosService: ServicosService,
-    private lojaDadosService: LojaDadosService
+    private lojaDadosService: LojaDadosService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -45,5 +47,7 @@ export class BannerComponent implements OnInit {
     return this.myServicos;
   }
 
-  onMap(): void {}
+  onAgendarAnonimo(): void {
+    this.router.navigateByUrl('agendar-anonimo');
+  }
 }
