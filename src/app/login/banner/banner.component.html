@@ -20,13 +20,22 @@
     </div>
 
     <div *ngIf="loja.promocoes" class="po-md-12 po-text-center po-mt-2">
-      <div class="po-font-text-large-bold">
-        Promoções
-      </div>
+      <div class="po-font-text-large-bold">Promoções</div>
       <div class="po-font-text">
         {{ loja.promocoes }}
       </div>
     </div>
+  </div>
+
+  <div class="po-row">
+    <po-button
+      class="po-sm-12 po-mt-2"
+      (p-click)="onAgendarAnonimo()"
+      p-icon="po-icon-calendar"
+      p-label="Agendar sem Cadastro"
+      p-type="primary"
+    >
+    </po-button>
   </div>
 
   <div class="po-row">

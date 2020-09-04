@@ -1,0 +1,178 @@
+<po-breadcrumb
+  [p-items]="[{ label: 'Login', link: '/login' }, { label: 'Agendar' }]"
+>
+</po-breadcrumb>
+<po-page-default p-title="Agendar">
+  <div class="po-row">
+    <div class="po-md-12 po-text-center po-font-text-large">
+      Faça seu agendamento agora mesmo sem se cadastrar
+    </div>
+  </div>
+  <div><po-divider></po-divider></div>
+  <div class="po-row">
+    <po-calendar
+      class="po-sm-12 po-md-6 po-mb-2"
+      [p-min-date]="minDate"
+      [(ngModel)]="dateCalendar"
+      (p-change)="changeCalendar($event)"
+    ></po-calendar>
+
+    <div class="po-sm-12 po-md-6">
+      <form [formGroup]="formAgendar">
+        <div class="po-row">
+          <po-input
+            class="po-sm-12"
+            p-label="Carro"
+            p-icon="po-icon-steering-wheel"
+            p-help="Marca, modelo e cor"
+            formControlName="carro"
+          >
+          </po-input>
+        </div>
+        <div class="po-row">
+          <po-select
+            class="po-sm-12"
+            p-label="Hora"
+            [p-options]="horaOptions"
+            formControlName="hora"
+            [p-disabled]="loadingHora"
+          >
+          </po-select>
+          <span
+            *ngIf="placeHora"
+            class="po-font-text-small po-sm-12 po-mb-2"
+            style="color: #c64840"
+            >! {{ placeHora }}</span
+          >
+        </div>
+        <div class="po-row">
+          <po-select
+            class="po-sm-12"
+            p-label="Tipo de serviço"
+            [p-options]="tipoServicoOptions"
+            formControlName="tipo"
+            [p-disabled]="loadingServicos"
+            (p-change)="changeServico($event)"
+            [p-help]="descricaoServico"
+          >
+          </po-select>
+          <span
+            *ngIf="msgObrigatorio"
+            class="po-font-text-small po-sm-12"
+            style="color: #c64840"
+            >! {{ msgObrigatorio }}</span
+          >
+        </div>
+        <div
+          class="po-row po-mt-2"
+          *ngIf="formAgendar.valid && !msgObrigatorio && formDados.valid"
+        >
+          <span class="po-font-subtitle po-sm-12"
+            >Total: R$ {{ precoServico }}</span
+          >
+        </div>
+      </form>
+
+      <div class="po-mt-2" *ngIf="formDadosObrigatorio">
+        <div class="po-row">
+          <div class="po-sm-12 po-text-center po-font-text-large">
+            Meus Dados
+          </div>
+        </div>
+        <form [formGroup]="formDados">
+          <div class="po-row">
+            <po-input
+              *ngIf="formDadosObrigatorio.includes('nome')"
+              class="form-control po-sm-12"
+              formControlName="nome"
+              p-label="Nome"
+              p-help="Nos diga seu nome"
+              p-clean
+              p-icon="po-icon-user"
+              (p-change-model)="changeMeusDados()"
+            >
+            </po-input>
+            <span
+              *ngIf="nome.invalid && (nome.dirty || nome.touched)"
+              class="po-font-text-small po-sm-12"
+              style="color: #c64840"
+            >
+              <div *ngIf="nome.errors.minlength">
+                ! Deve ter pelo menos 5 caracteres.
+              </div>
+            </span>
+          </div>
+          <div class="po-row">
+            <po-input
+              *ngIf="formDadosObrigatorio.includes('endereco')"
+              class="po-sm-12"
+              formControlName="endereco"
+              p-label="Endereço"
+              p-help="Rua, avenida, bairro, cidade"
+              p-clean
+              p-icon="po-icon-pin"
+              (p-change-model)="changeMeusDados()"
+            >
+            </po-input>
+          </div>
+          <div class="po-row">
+            <po-number
+              *ngIf="formDadosObrigatorio.includes('endereco')"
+              class="po-sm-12"
+              formControlName="numero"
+              p-label="Número"
+              p-clean
+              (p-change-model)="changeMeusDados()"
+            >
+            </po-number>
+          </div>
+          <div class="po-row">
+            <po-input
+              *ngIf="formDadosObrigatorio.includes('endereco')"
+              class="po-sm-12"
+              formControlName="complemento"
+              p-label="Complemento"
+              p-help="Bloco, Apartamento"
+              p-icon="po-icon-pin"
+              p-clean
+            >
+            </po-input>
+          </div>
+          <div class="po-row">
+            <po-input
+              *ngIf="formDadosObrigatorio.includes('telefone')"
+              class="po-sm-12"
+              formControlName="telefone"
+              p-label="Telefone"
+              p-mask="(99) 99999?-9999"
+              p-placeholder="(99) 99999-9999"
+              p-help="Telefone para contato"
+              p-icon="po-icon-telephone"
+              p-clean
+              (p-change-model)="changeMeusDados()"
+            >
+            </po-input>
+          </div>
+        </form>
+      </div>
+
+      <div class="po-row po-mt-2">
+        <po-button
+          class="po-sm-12"
+          p-type="primary"
+          p-icon="po-icon-ok"
+          p-label="Confirmar"
+          p-loading="loadingAgendar"
+          [p-disabled]="
+            !formAgendar.valid ||
+            msgObrigatorio?.length > 0 ||
+            enviado ||
+            !formDados.valid
+          "
+          (p-click)="saveAgenda()"
+        >
+        </po-button>
+      </div>
+    </div>
+  </div>
+</po-page-default>

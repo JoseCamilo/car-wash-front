@@ -38,4 +38,27 @@ export class ExpedienteService {
         });
     });
   }
+
+  public getExpedienteAnonymous(): Promise<any> {
+    return new Promise((resolve, reject) => {
+      firebase
+        .auth()
+        .signInAnonymously()
+        .then((user: any) => {
+          firebase
+            .database()
+            .ref(`admin/expediente/semana`)
+            .once('value')
+            .then((snapshot: any) => {
+              const data = snapshot.val() || {};
+              data.key = snapshot.key;
+              resolve(data);
+            })
+            .catch((erro) => {
+              console.log(erro);
+              reject(erro);
+            });
+        });
+    });
+  }
 }
