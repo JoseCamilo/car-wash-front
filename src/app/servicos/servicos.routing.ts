@@ -5,8 +5,8 @@ import { ServicoComponent } from './servico/servico.component';
 
 const routes: Routes = [
   { path: '', component: ServicosComponent },
-  { path: 'item', component: ServicoComponent },
-  { path: 'item/:id', component: ServicoComponent },
+  { path: 'new', component: ServicoComponent },
+  { path: 'edit/:id', component: ServicoComponent },
 ];
 
 @NgModule({

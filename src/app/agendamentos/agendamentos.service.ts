@@ -58,4 +58,23 @@ export class AgendamentosService {
         .catch(() => reject());
     });
   }
+
+  public getDateHoje(): string {
+    const date = new Date();
+    const mes = ('00' + (date.getMonth() + 1)).slice(-2);
+    const dia = ('00' + date.getDate()).slice(-2);
+    return `${date.getFullYear()}-${mes}-${dia}`;
+  }
+
+  public getDateSemana(): string {
+    const date = new Date();
+    const time = date.getTime();
+    const day = date.getDay();
+    const newTime = time + (7 - day) * 86400000;
+    const newDate = new Date(newTime);
+
+    const mes = ('00' + (newDate.getMonth() + 1)).slice(-2);
+    const dia = ('00' + newDate.getDate()).slice(-2);
+    return `${newDate.getFullYear()}-${mes}-${dia}`;
+  }
 }

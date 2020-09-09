@@ -1,6 +1,6 @@
 <po-breadcrumb
   [p-items]="[
-    { label: 'Admin. Serviços', link: '/servicos' },
+    { label: 'Admin. Serviços', link: '/services' },
     { label: 'Cadastro' }
   ]"
 >
@@ -9,7 +9,10 @@
 <po-page-default p-title="Cadastro de Serviço">
   <form [formGroup]="formServico">
     <div>
-      <po-loading-overlay [hidden]="isHideLoading"></po-loading-overlay>
+      <po-loading-overlay
+        [hidden]="isHideLoading"
+        p-screen-lock
+      ></po-loading-overlay>
     </div>
     <div class="po-row po-mt-3 po-mt-sm-1">
       <div class="po-md-6 po-offset-md-3 po-offset-lg-3 po-offset-xl-3">
@@ -33,13 +36,50 @@
           [p-options]="obrigatorioOptions"
         >
         </po-checkbox-group>
-        <po-number formControlName="preco" p-label="Preço R$" p-clean>
-        </po-number>
       </div>
     </div>
   </form>
 
-  <div class="po-row">
+  <div class="po-row po-mt-1">
+    <po-widget class="po-md-6 po-offset-md-3 po-offset-lg-3 po-offset-xl-3">
+      <span class="po-font-text-bold">Preços do Serviço</span>
+      <po-table
+        [p-items]="tiposVeiculo"
+        [p-literals]="tableLiterals"
+        [p-columns]="tableColumn"
+        p-hide-columns-manager
+      >
+      </po-table>
+
+      <form [formGroup]="formPreco" class="po-mt-4">
+        <po-input
+          class="po-lg-5"
+          formControlName="tipo"
+          p-label="Tipo/Espécie do Veículo"
+          p-clean
+        >
+        </po-input>
+        <po-number
+          class="po-lg-5"
+          formControlName="preco"
+          p-label="Preço R$"
+          p-clean
+        >
+        </po-number>
+      </form>
+      <po-button
+        class="po-lg-2 po-pt-lg-4"
+        p-label="Incluir R$"
+        [p-disabled]="!formPreco.valid"
+        (p-click)="saveTipoVeiculo()"
+      >
+      </po-button>
+    </po-widget>
+  </div>
+
+  <div><po-divider></po-divider></div>
+
+  <div class="po-row po-mt-3 po-mt-sm-1">
     <po-button
       class="po-md-6 po-offset-md-3 po-offset-lg-3 po-offset-xl-3"
       p-type="primary"

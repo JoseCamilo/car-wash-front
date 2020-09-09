@@ -62,7 +62,7 @@ export class DadosComponent implements OnInit {
       .then(() => {
         this.poNotification.success('Dados salvos!');
         this.loadingConfirmar = false;
-        this.router.navigateByUrl('agendar');
+        this.router.navigateByUrl('schedule');
       })
       .catch((erro) => {
         console.error(erro);

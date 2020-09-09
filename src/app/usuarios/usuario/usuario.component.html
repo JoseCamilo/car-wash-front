@@ -1,5 +1,5 @@
 <po-breadcrumb
-  [p-items]="[{ label: 'Usuários', link: '/usuarios' }, { label: 'Cadastro' }]"
+  [p-items]="[{ label: 'Usuários', link: '/users' }, { label: 'Cadastro' }]"
 >
 </po-breadcrumb>
 <po-page-default p-title="Cadastro de Usuário">
@@ -9,6 +9,15 @@
     </div>
     <div class="po-row po-mt-3 po-mt-sm-1">
       <div class="po-md-6 po-offset-md-3 po-offset-lg-3 po-offset-xl-3">
+        <po-input
+          formControlName="nome"
+          p-label="Nome"
+          p-help="Nos diga seu nome"
+          p-clean
+          p-icon="po-icon-user"
+        >
+        </po-input>
+        <po-email formControlName="login" p-label="Email"> </po-email>
         <po-input
           formControlName="endereco"
           p-label="Endereço"

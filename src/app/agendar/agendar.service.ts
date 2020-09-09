@@ -157,10 +157,21 @@ export class AgendarService {
     return semana;
   }
 
+  getDateHoje(): string {
+    const date = new Date();
+    const mes = ('00' + (date.getMonth() + 1)).slice(-2);
+    const dia = ('00' + date.getDate()).slice(-2);
+    return `${date.getFullYear()}-${mes}-${dia}`;
+  }
+
   getHorasDisponiveis(expediente, hrsCalendario, data): Array<any> {
     const result = [];
     let horasExpediente = [];
     const diaSemana = this.getDiaSemana(data);
+
+    const dataAtual = this.getDateHoje();
+    const d = new Date();
+    const horaAtual = `${d.getHours()}:${d.getMinutes()}`;
 
     if (expediente[diaSemana]?.length) {
       horasExpediente = [...expediente[diaSemana]];
@@ -176,7 +187,7 @@ export class AgendarService {
           }
         });
 
-        if (horaDisponivel) {
+        if (horaDisponivel && (data > dataAtual || hrExpediente > horaAtual)) {
           result.push({ value: hrExpediente, label: hrExpediente });
         }
       });

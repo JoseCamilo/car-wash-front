@@ -12,15 +12,15 @@ import { DadosService } from '../dados/dados.service';
 export class MenuComponent implements OnInit {
   public items: Array<PoNavbarItem> = [
     { label: 'Agenda', link: '/home' },
-    { label: 'Meus dados', link: '/dados' },
+    { label: 'Meus dados', link: '/data' },
   ];
 
   readonly menuAdmin = [
-    { label: 'Agendamentos', link: '/agendamentos' },
-    { label: 'Serviços', link: '/servicos' },
-    { label: 'Expediente', link: '/expediente' },
-    { label: 'Usuários', link: '/usuarios' },
-    { label: 'Dados da Loja', link: '/dados-loja' },
+    { label: 'Agendamentos', link: '/schedules' },
+    { label: 'Serviços', link: '/services' },
+    { label: 'Expediente', link: '/expedient' },
+    { label: 'Usuários', link: '/users' },
+    { label: 'Dados da Loja', link: '/store-data' },
   ];
   readonly menuSair = [{ label: 'Sair', action: this.onSair.bind(this) }];
 

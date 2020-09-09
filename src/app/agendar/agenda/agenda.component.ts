@@ -18,6 +18,7 @@ export class AgendaComponent implements OnInit {
     hora: new FormControl(''),
     tipo: new FormControl(''),
     preco: new FormControl(''),
+    tipoVeiculo: new FormControl(''),
     observacao: new FormControl(''),
   });
 
@@ -60,6 +61,7 @@ export class AgendaComponent implements OnInit {
     this.agenda.carro = this.formAgendar.value.carro;
     this.agenda.hora = this.formAgendar.value.hora;
     this.agenda.tipo = this.formAgendar.value.tipo;
+    this.agenda.tipoVeiculo = this.formAgendar.value.tipoVeiculo;
     this.agenda.preco = this.formAgendar.value.preco;
     this.agenda.data = this.dateCalendar;
     this.agenda.observacao = this.formAgendar.value.observacao;
@@ -67,7 +69,7 @@ export class AgendaComponent implements OnInit {
     this.service
       .updateAgenda(this.agenda.email, this.agenda)
       .then(() => {
-        this.router.navigateByUrl('agendamentos');
+        this.router.navigateByUrl('schedules');
         this.poNotification.success(`Agenda alterada com sucesso!`);
       })
       .catch((erro) => {

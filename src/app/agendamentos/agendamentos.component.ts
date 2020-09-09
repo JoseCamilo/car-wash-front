@@ -52,6 +52,11 @@ export class AgendamentosComponent implements OnInit {
       action: this.updateStatusPendente.bind(this),
       icon: 'po-icon-help',
     },
+    {
+      label: 'Alterar',
+      action: this.updateItem.bind(this),
+      icon: 'po-icon-edit',
+    },
   ];
 
   customLiterals: PoListViewLiterals = {
@@ -72,12 +77,12 @@ export class AgendamentosComponent implements OnInit {
     return this.myItemsFiltered;
   }
   get itemsHoje(): Array<any> {
-    const hoje = this.getDateHoje();
+    const hoje = this.service.getDateHoje();
     return this.myItemsFiltered.filter((x) => x.data === hoje);
   }
   get itemsSemana(): Array<any> {
-    const hoje = this.getDateHoje();
-    const last = this.getDateSemana();
+    const hoje = this.service.getDateHoje();
+    const last = this.service.getDateSemana();
     return this.myItemsFiltered.filter((x) => x.data > hoje && x.data <= last);
   }
 
@@ -102,7 +107,7 @@ export class AgendamentosComponent implements OnInit {
   }
 
   onAgendar(): void {
-    this.router.navigateByUrl('/agendar');
+    this.router.navigateByUrl('schedule');
   }
 
   updateStatus(item, status): void {
@@ -131,29 +136,15 @@ export class AgendamentosComponent implements OnInit {
     this.updateStatus(item, 'concluido');
     const email = encodeURIComponent(btoa(item.email));
     const key = encodeURIComponent(item.key);
-    this.router.navigateByUrl(`agendar/${email}/${key}`);
+    this.router.navigateByUrl(`schedule/${email}/${key}`);
   }
   updateStatusPendente(item): void {
     this.updateStatus(item, 'pendente');
   }
-
-  getDateHoje(): string {
-    const date = new Date();
-    const mes = ('00' + (date.getMonth() + 1)).slice(-2);
-    const dia = ('00' + date.getDate()).slice(-2);
-    return `${date.getFullYear()}-${mes}-${dia}`;
-  }
-
-  getDateSemana(): string {
-    const date = new Date();
-    const time = date.getTime();
-    const day = date.getDay();
-    const newTime = time + (7 - day) * 86400000;
-    const newDate = new Date(newTime);
-
-    const mes = ('00' + (newDate.getMonth() + 1)).slice(-2);
-    const dia = ('00' + newDate.getDate()).slice(-2);
-    return `${newDate.getFullYear()}-${mes}-${dia}`;
+  updateItem(item): void {
+    const email = encodeURIComponent(btoa(item.email));
+    const key = encodeURIComponent(item.key);
+    this.router.navigateByUrl(`schedule/${email}/${key}`);
   }
 
   // Filtro

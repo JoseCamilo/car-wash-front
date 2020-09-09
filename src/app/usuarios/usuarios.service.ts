@@ -51,10 +51,6 @@ export class UsuariosService {
   }
 
   public saveUsuario(usuario): Promise<any> {
-    if (usuario.key) {
-      return firebase.database().ref(`usuarios/${usuario.key}`).update(usuario);
-    } else {
-      return firebase.database().ref(`usuarios`).push(usuario);
-    }
+    return firebase.database().ref(`usuarios/${usuario.key}`).update(usuario);
   }
 }

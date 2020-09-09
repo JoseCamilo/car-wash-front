@@ -26,8 +26,9 @@
         >
         </po-checkbox-group>
         <po-info
+          *ngFor="let item of item.precos"
           class="po-md-6"
-          p-label="Preço"
+          p-label="Preço para {{ item.tipo }}"
           p-value="R$ {{ item.preco }}"
         ></po-info>
       </div>
