@@ -36,7 +36,7 @@ export class LoginComponent implements OnInit {
       .signIn(login)
       .then(() => {
         this.loadingConfirmar = false;
-        this.router.navigateByUrl('/home');
+        this.router.navigateByUrl('home');
       })
       .catch((error) => {
         this.loadingConfirmar = false;

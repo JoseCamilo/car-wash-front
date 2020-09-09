@@ -18,6 +18,8 @@ import { PoDividerModule } from '@po-ui/ng-components';
 import { PoLoadingModule } from '@po-ui/ng-components';
 import { ServicoComponent } from './servico/servico.component';
 import { PoBreadcrumbModule } from '@po-ui/ng-components';
+import { PoWidgetModule } from '@po-ui/ng-components';
+import { PoTableModule } from '@po-ui/ng-components';
 
 @NgModule({
   imports: [
@@ -39,6 +41,8 @@ import { PoBreadcrumbModule } from '@po-ui/ng-components';
     PoDividerModule,
     PoLoadingModule,
     PoBreadcrumbModule,
+    PoWidgetModule,
+    PoTableModule,
   ],
   declarations: [ServicosComponent, ServicoComponent],
   providers: [ServicosService],

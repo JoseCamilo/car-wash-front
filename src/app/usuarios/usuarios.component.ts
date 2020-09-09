@@ -109,10 +109,10 @@ export class UsuariosComponent implements OnInit {
   }
 
   createUsuario(): void {
-    this.router.navigateByUrl(`/usuarios/item`);
+    this.router.navigateByUrl(`users/new`);
   }
   updateUsuario(item): void {
-    this.router.navigateByUrl(`/usuarios/item/${encodeURIComponent(item.key)}`);
+    this.router.navigateByUrl(`users/edit/${encodeURIComponent(item.key)}`);
   }
 
   deleteUsuario(item): void {

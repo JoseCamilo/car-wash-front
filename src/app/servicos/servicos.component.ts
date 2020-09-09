@@ -109,10 +109,10 @@ export class ServicosComponent implements OnInit {
   }
 
   createServico(): void {
-    this.router.navigateByUrl(`/servicos/item`);
+    this.router.navigateByUrl(`services/new`);
   }
   updateServico(item): void {
-    this.router.navigateByUrl(`/servicos/item/${item.key}`);
+    this.router.navigateByUrl(`services/edit/${item.key}`);
   }
 
   deleteServico(item): void {

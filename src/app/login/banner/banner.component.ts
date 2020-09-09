@@ -48,6 +48,6 @@ export class BannerComponent implements OnInit {
   }
 
   onAgendarAnonimo(): void {
-    this.router.navigateByUrl('agendar-anonimo');
+    this.router.navigateByUrl('schedule-anonymous');
   }
 }

@@ -62,7 +62,7 @@
 
         <po-info
           class="po-sm-6 po-md-3"
-          p-label="Carro"
+          p-label="Veículo"
           [p-value]="item.carro"
         ></po-info>
         <po-info
@@ -193,7 +193,7 @@
 
         <po-info
           class="po-sm-6 po-md-3"
-          p-label="Carro"
+          p-label="Veículo"
           [p-value]="item.carro"
         ></po-info>
         <po-info
@@ -324,7 +324,7 @@
 
         <po-info
           class="po-sm-6 po-md-3"
-          p-label="Carro"
+          p-label="Veículo"
           [p-value]="item.carro"
         ></po-info>
         <po-info
@@ -363,6 +363,16 @@
           p-value="{{ item.cliente?.endereco }}, {{ item.cliente?.numero }} {{
             item.cliente?.complemento
           }}"
+        ></po-info>
+        <po-info
+          class="po-sm-6 po-md-3"
+          p-label="Tipo Veículo"
+          [p-value]="item.tipoVeiculo"
+        ></po-info>
+        <po-info
+          class="po-sm-6 po-md-3"
+          p-label="Preço"
+          p-value="R$ {{ item.preco }}"
         ></po-info>
         <po-info
           class="po-md-6"

@@ -24,7 +24,7 @@
       <div class="po-row">
         <po-input
           class="po-sm-12"
-          p-label="Carro"
+          p-label="Veículo"
           p-icon="po-icon-steering-wheel"
           p-help="Marca, modelo e cor"
           formControlName="carro"
@@ -64,6 +64,18 @@
           style="color: #c64840"
           >! {{ msgObrigatorio }}</span
         >
+      </div>
+      <div class="po-row">
+        <po-select
+          class="po-sm-12"
+          p-label="Tipo de veículo"
+          [p-options]="tipoVeiculoOptions"
+          formControlName="tipoVeiculo"
+          [p-disabled]="loadingServicos"
+          (p-change)="changeTipoVeiculo($event)"
+          p-help="Categoria do seu veículo"
+        >
+        </po-select>
       </div>
       <div class="po-row po-mt-2" *ngIf="formAgendar.valid && !msgObrigatorio">
         <span class="po-font-subtitle po-sm-12"

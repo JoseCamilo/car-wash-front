@@ -17,6 +17,7 @@ export class AgendarAnonimoComponent implements OnInit {
     carro: new FormControl('', [Validators.required]),
     hora: new FormControl('', [Validators.required]),
     tipo: new FormControl('', [Validators.required]),
+    tipoVeiculo: new FormControl('', [Validators.required]),
   });
 
   public formDados: FormGroup = new FormGroup({
@@ -32,12 +33,14 @@ export class AgendarAnonimoComponent implements OnInit {
 
   public myHoraOptions: PoSelectOption[] = [];
   public myTipoServicoOptions: PoSelectOption[] = [];
+  public myTipoVeiculoOptions: PoSelectOption[] = [];
 
   user = { email: '', papel: '', dados: null };
   loadingServicos = true;
   loadingHora = true;
   enviado = false;
   tipoServicos = [];
+  tipoVeiculos = [];
   msgObrigatorio = '';
   formDadosObrigatorio = '';
   descricaoServico = '';
@@ -63,11 +66,15 @@ export class AgendarAnonimoComponent implements OnInit {
     return this.formDados.get('nome');
   }
 
+  get tipoVeiculoOptions(): Array<PoSelectOption> {
+    return this.myTipoVeiculoOptions;
+  }
+
   ngOnInit(): void {
     this.servicosService
       .getServicosAnonymous()
       .then((res: Array<any>) => {
-        this.tipoServicos = res;
+        this.tipoServicos = [...res];
         res.forEach((el) => {
           this.myTipoServicoOptions.push({
             value: el.key,
@@ -86,6 +93,7 @@ export class AgendarAnonimoComponent implements OnInit {
   saveAgenda(): void {
     this.user.email = this.user.email || 'anonimo';
     this.user.dados = this.formDados.value;
+    this.user.dados.nome = this.formDados.value.nome || 'Anônimo';
 
     const agenda = {
       status: 'pendente',
@@ -96,6 +104,9 @@ export class AgendarAnonimoComponent implements OnInit {
       cliente: this.user.dados,
       preco: this.precoServico,
       email: this.user.email,
+      tipoVeiculo: this.getLabelVeiculoByValue(
+        this.formAgendar.value.tipoVeiculo
+      ),
     };
 
     this.service
@@ -190,12 +201,12 @@ export class AgendarAnonimoComponent implements OnInit {
       .indexOf(event);
 
     this.descricaoServico = this.tipoServicos[pos].descricao;
-    this.precoServico = this.tipoServicos[pos].preco;
     this.formDadosObrigatorio = this.tipoServicos[pos].obrigatorio || [];
     this.msgObrigatorio = this.service.getMessageObrigatorio(
       this.tipoServicos[pos],
       this.user.dados
     );
+    this.setTipoVeiculoOptions(this.tipoServicos[pos]);
   }
   changeMeusDados(): void {
     this.user.dados = this.formDados.value;
@@ -209,5 +220,44 @@ export class AgendarAnonimoComponent implements OnInit {
       this.tipoServicos[pos],
       this.user.dados
     );
+  }
+
+  setTipoVeiculoOptions(servico): void {
+    this.tipoVeiculos = [];
+    this.formAgendar.patchValue({ tipoVeiculo: '' });
+    this.myTipoVeiculoOptions = [];
+
+    for (let i = 0; i < servico.precos?.length; i++) {
+      const el = servico.precos[i];
+
+      this.tipoVeiculos.push({
+        value: i,
+        label: el.tipo,
+        preco: el.preco,
+      });
+      this.myTipoVeiculoOptions.push({
+        value: i,
+        label: el.tipo,
+      });
+    }
+  }
+  changeTipoVeiculo(event): void {
+    this.precoServico = this.getPrecoTipoVeiculoByValue(event);
+  }
+  getPrecoTipoVeiculoByValue(value): number {
+    const pos = this.tipoVeiculos
+      .map((e) => {
+        return e.value;
+      })
+      .indexOf(value);
+    return this.tipoVeiculos[pos].preco;
+  }
+  getLabelVeiculoByValue(value): number {
+    const pos = this.tipoVeiculos
+      .map((e) => {
+        return e.value;
+      })
+      .indexOf(value);
+    return this.tipoVeiculos[pos].label;
   }
 }

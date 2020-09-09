@@ -13,17 +13,17 @@ const routes: Routes = [
       import('./login/login.module').then((m) => m.LoginModule),
   },
   {
-    path: 'registrar',
+    path: 'register',
     loadChildren: () =>
       import('./registrar/registrar.module').then((m) => m.RegistrarModule),
   },
   {
-    path: 'redefinir',
+    path: 'reset',
     loadChildren: () =>
       import('./redefinir/redefinir.module').then((m) => m.RedefinirModule),
   },
   {
-    path: 'agendar-anonimo',
+    path: 'schedule-anonymous',
     loadChildren: () =>
       import('./agendar/agendar-anonimo/agendar-anonimo.module').then(
         (m) => m.AgendarAnonimoModule
@@ -40,25 +40,25 @@ const routes: Routes = [
           import('./home/home.module').then((m) => m.HomeModule),
       },
       {
-        path: 'agendar',
+        path: 'schedule',
         canActivate: [AutenticacaoGuard],
         loadChildren: () =>
           import('./agendar/agendar.module').then((m) => m.AgendarModule),
       },
       {
-        path: 'agendar/:email/:id',
+        path: 'schedule/:email/:id',
         canActivate: [AutenticacaoGuard],
         loadChildren: () =>
           import('./agendar/agendar.module').then((m) => m.AgendarModule),
       },
       {
-        path: 'dados',
+        path: 'data',
         canActivate: [AutenticacaoGuard],
         loadChildren: () =>
           import('./dados/dados.module').then((m) => m.DadosModule),
       },
       {
-        path: 'agendamentos',
+        path: 'schedules',
         canActivate: [AdminAutenticacaoGuard],
         loadChildren: () =>
           import('./agendamentos/agendamentos.module').then(
@@ -66,43 +66,43 @@ const routes: Routes = [
           ),
       },
       {
-        path: 'servicos',
+        path: 'services',
         canActivate: [AdminAutenticacaoGuard],
         loadChildren: () =>
           import('./servicos/servicos.module').then((m) => m.ServicosModule),
       },
       {
-        path: 'servicos/item',
+        path: 'services/new',
         canActivate: [AdminAutenticacaoGuard],
         loadChildren: () =>
           import('./servicos/servicos.module').then((m) => m.ServicosModule),
       },
       {
-        path: 'servicos/item/:id',
+        path: 'services/edit/:id',
         canActivate: [AdminAutenticacaoGuard],
         loadChildren: () =>
           import('./servicos/servicos.module').then((m) => m.ServicosModule),
       },
       {
-        path: 'usuarios',
+        path: 'users',
         canActivate: [AdminAutenticacaoGuard],
         loadChildren: () =>
           import('./usuarios/usuarios.module').then((m) => m.UsuariosModule),
       },
       {
-        path: 'usuarios/item',
+        path: 'users/new',
         canActivate: [AdminAutenticacaoGuard],
         loadChildren: () =>
           import('./usuarios/usuarios.module').then((m) => m.UsuariosModule),
       },
       {
-        path: 'usuarios/item/:id',
+        path: 'users/edit/:id',
         canActivate: [AdminAutenticacaoGuard],
         loadChildren: () =>
           import('./usuarios/usuarios.module').then((m) => m.UsuariosModule),
       },
       {
-        path: 'expediente',
+        path: 'expedient',
         canActivate: [AdminAutenticacaoGuard],
         loadChildren: () =>
           import('./expediente/expediente.module').then(
@@ -110,7 +110,7 @@ const routes: Routes = [
           ),
       },
       {
-        path: 'dados-loja',
+        path: 'store-data',
         canActivate: [AdminAutenticacaoGuard],
         loadChildren: () =>
           import('./loja-dados/loja-dados.module').then(

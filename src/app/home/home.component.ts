@@ -122,6 +122,6 @@ export class HomeComponent implements OnInit {
   }
 
   onAgendar(): void {
-    this.router.navigateByUrl('/agendar');
+    this.router.navigateByUrl('schedule');
   }
 }

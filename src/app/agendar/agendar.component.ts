@@ -17,6 +17,7 @@ export class AgendarComponent implements OnInit {
     carro: new FormControl('', [Validators.required]),
     hora: new FormControl('', [Validators.required]),
     tipo: new FormControl('', [Validators.required]),
+    tipoVeiculo: new FormControl('', [Validators.required]),
   });
 
   public minDate = new Date();
@@ -24,11 +25,13 @@ export class AgendarComponent implements OnInit {
 
   public myHoraOptions: PoSelectOption[] = [];
   public myTipoServicoOptions: PoSelectOption[] = [];
+  public myTipoVeiculoOptions: PoSelectOption[] = [];
 
   user = { email: '', papel: '', dados: null };
   loadingServicos = true;
   loadingHora = true;
   tipoServicos = [];
+  tipoVeiculos = [];
   msgObrigatorio = '';
   descricaoServico = '';
   precoServico = 0;
@@ -51,6 +54,10 @@ export class AgendarComponent implements OnInit {
     return this.myTipoServicoOptions;
   }
 
+  get tipoVeiculoOptions(): Array<PoSelectOption> {
+    return this.myTipoVeiculoOptions;
+  }
+
   ngOnInit(): void {
     this.dadosService
       .getDadosUser()
@@ -67,7 +74,7 @@ export class AgendarComponent implements OnInit {
     this.servicosService
       .getServicos()
       .then((res: Array<any>) => {
-        this.tipoServicos = res;
+        this.tipoServicos = [...res];
         res.forEach((el) => {
           this.myTipoServicoOptions.push({
             value: el.key,
@@ -93,6 +100,9 @@ export class AgendarComponent implements OnInit {
       cliente: this.user.dados,
       preco: this.precoServico,
       email: this.user.email,
+      tipoVeiculo: this.getLabelVeiculoByValue(
+        this.formAgendar.value.tipoVeiculo
+      ),
     };
 
     this.service
@@ -176,13 +186,53 @@ export class AgendarComponent implements OnInit {
       .indexOf(event);
 
     this.descricaoServico = this.tipoServicos[pos].descricao;
-    this.precoServico = this.tipoServicos[pos].preco;
     this.msgObrigatorio = this.service.getMessageObrigatorio(
       this.tipoServicos[pos],
       this.user.dados
     );
+    this.setTipoVeiculoOptions(this.tipoServicos[pos]);
   }
+
+  setTipoVeiculoOptions(servico): void {
+    this.tipoVeiculos = [];
+    this.formAgendar.patchValue({ tipoVeiculo: '' });
+    this.myTipoVeiculoOptions = [];
+
+    for (let i = 0; i < servico.precos?.length; i++) {
+      const el = servico.precos[i];
+
+      this.tipoVeiculos.push({
+        value: i,
+        label: el.tipo,
+        preco: el.preco,
+      });
+      this.myTipoVeiculoOptions.push({
+        value: i,
+        label: el.tipo,
+      });
+    }
+  }
+  changeTipoVeiculo(event): void {
+    this.precoServico = this.getPrecoTipoVeiculoByValue(event);
+  }
+  getPrecoTipoVeiculoByValue(value): number {
+    const pos = this.tipoVeiculos
+      .map((e) => {
+        return e.value;
+      })
+      .indexOf(value);
+    return this.tipoVeiculos[pos].preco;
+  }
+  getLabelVeiculoByValue(value): number {
+    const pos = this.tipoVeiculos
+      .map((e) => {
+        return e.value;
+      })
+      .indexOf(value);
+    return this.tipoVeiculos[pos].label;
+  }
+
   meusDados(): void {
-    this.router.navigateByUrl('/dados');
+    this.router.navigateByUrl('data');
   }
 }
